@@ -50,7 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(POST ,"/api/auth/refresh_token/**" ).permitAll();
 
         http.authorizeRequests().antMatchers(GET ,"/api/auth/refresh/**" ).permitAll();
-        http.authorizeRequests().antMatchers("/api/patients/**","/api/services/**","/api/drugs/**","/api/detail_batch_drugs/**","/api/medical_letters/**","/api/medical_examinations/**","/api/medical_detail_examinations/**","/api/medicines/**","/api/suppliers/**").hasAnyAuthority("ADMIN");
+//        http.authorizeRequests().antMatchers("/api/patients/**","/api/services/**","/api/drugs/**","/api/detail_batch_drugs/**","/api/medical_letters/**","/api/medical_examinations/**","/api/medical_detail_examinations/**","/api/medicines/**","/api/suppliers/**").hasAnyAuthority("ADMIN");
+        http.authorizeRequests().antMatchers("/api/patients/**","/api/services/**","/api/drugs/**","/api/detail_batch_drugs/**","/api/medical_letters/**","/api/medical_examinations/**","/api/medical_detail_examinations/**","/api/medicines/**","/api/suppliers/**").permitAll();
+
         http.authorizeRequests().antMatchers(GET ,"/api/auth/roles/**" ).hasAnyAuthority("ADMIN");
 
         http.authorizeRequests().antMatchers("/api/batch_drugs/**").hasAnyAuthority("NEWMEM");

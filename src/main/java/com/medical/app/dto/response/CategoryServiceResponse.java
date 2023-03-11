@@ -15,4 +15,5 @@ public class CategoryServiceResponse {
     private String name;
     private Date createdDate;
     private Date updateDate;
+    private Boolean isCls;
 }

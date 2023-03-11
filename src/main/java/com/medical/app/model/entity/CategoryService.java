@@ -22,4 +22,5 @@ public class CategoryService {
     private String name;
     private Date createdDate;
     private Date updatedDate;
+    private Boolean isCls;
 }

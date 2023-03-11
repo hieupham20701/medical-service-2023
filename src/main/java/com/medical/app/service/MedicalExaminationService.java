@@ -1,6 +1,5 @@
 package com.medical.app.service;
 
-import com.medical.app.dto.request.MedicalExaminationDetailsRequest;
 import com.medical.app.dto.request.MedicalExaminationRequest;
 import com.medical.app.dto.response.MedicalExaminationResponse;
 

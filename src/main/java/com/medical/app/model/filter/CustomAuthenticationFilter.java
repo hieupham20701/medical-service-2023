@@ -53,13 +53,20 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             String refresh_token = tokenCreator.createToken(JWTTokenCreator.TokenType.REFRESH_TOKEN);
 
             Map<String,Object> tokens = new HashMap<>();
-            tokens.put("name", userResponse.getFullName());
-            tokens.put("user_id",userResponse.getId());
-            tokens.put("phone_number",userResponse.getPhoneNumber());
+            tokens.put("fullName", userResponse.getFullName());
+            tokens.put("id",userResponse.getId());
+            tokens.put("phoneNumber",userResponse.getPhoneNumber());
             tokens.put("avatar", userResponse.getAvatar());
-            tokens.put("login_date", new Date());
+            tokens.put("loginDate", new Date());
             tokens.put("access_token", access_token);
             tokens.put("refresh_token", refresh_token);
+            tokens.put("dateOfBirth", userResponse.getDateOfBirth());
+            tokens.put("idCardNumber", userResponse.getIdCardNumber());
+            tokens.put("address", userResponse.getAddress());
+            tokens.put("createdDate", userResponse.getCreatedDate());
+            tokens.put("updatedDate", userResponse.getUpdatedDate());
+            tokens.put("role",userResponse.getRole());
+
             response.setContentType(APPLICATION_JSON_VALUE);
 
             new ObjectMapper().writeValue(response.getOutputStream(),tokens);

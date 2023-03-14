@@ -21,7 +21,6 @@ public class DetailMedicineRequest {
     private String amount;
     private Double total_price;
     private Integer drug_id;
-    private Integer medicine_id;
     private String unit;
     private Date createdDate;
     private Date updatedDate;

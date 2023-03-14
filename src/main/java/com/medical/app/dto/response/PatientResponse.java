@@ -1,15 +1,13 @@
 package com.medical.app.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
+@Data
 public class PatientResponse {
     private Integer id;
     private String idCard;

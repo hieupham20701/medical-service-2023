@@ -19,9 +19,7 @@ public class MedicalAppointmentLetterRequest {
     private Date created_date;
     private Date updated_date;
     private Integer service_id;
-    private String patient_name;
-    private String address;
-    private String phone_number;
+    private PatientRequest patientRequest;
     private Integer creator_id;
     private String status;
     private String description;

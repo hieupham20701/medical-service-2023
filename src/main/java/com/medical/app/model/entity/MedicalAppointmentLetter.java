@@ -33,9 +33,9 @@ public class MedicalAppointmentLetter {
     @ManyToOne
     @JoinColumn(name = "service_id")
     private Service service;
-    private String patientName;
-    private String address;
-    private String phoneNumber;
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
     @ManyToOne
     @JoinColumn(name = "creator_id")
     private User creator;

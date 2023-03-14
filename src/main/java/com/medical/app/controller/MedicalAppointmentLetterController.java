@@ -55,7 +55,7 @@ public class MedicalAppointmentLetterController {
         return ResponseEntity.ok().body(medicalAppointLetterService.getAllLetter());
     }
 
-    @GetMapping("/date")
+    @PostMapping("/date")
     public ResponseEntity<?> getLettersFromDateToDate(@RequestParam @DateTimeFormat(pattern="dd/MM/yyyy") Date from, @RequestParam @DateTimeFormat(pattern="dd/MM/yyyy") Date to){
         return ResponseEntity.ok().body(medicalAppointLetterService.findLettersByDateBetween(from,to));
     }

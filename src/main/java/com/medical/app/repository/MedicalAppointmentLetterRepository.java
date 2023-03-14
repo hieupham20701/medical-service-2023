@@ -11,8 +11,8 @@ import java.util.Optional;
 @Repository
 public interface MedicalAppointmentLetterRepository extends JpaRepository<MedicalAppointmentLetter, Integer> {
 
-    Optional<MedicalAppointmentLetter> findMedicalAppointmentLetterByPhoneNumber(String phoneNumber);
+    Optional<MedicalAppointmentLetter> findMedicalAppointmentLetterByPatientPhoneNumber(String phoneNumber);
     List<MedicalAppointmentLetter> findMedicalAppointmentLettersByDateBetween(Date from, Date to);
 
-    List<MedicalAppointmentLetter> findMedicalAppointmentLettersByPatientNameLikeOrPhoneNumber(String patientName, String phoneNumber);
+    List<MedicalAppointmentLetter> findMedicalAppointmentLetterByPatientFullNameOrPatientPhoneNumber(String patientName, String phoneNumber);
 }

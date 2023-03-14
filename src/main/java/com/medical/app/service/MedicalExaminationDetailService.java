@@ -11,5 +11,4 @@ public interface MedicalExaminationDetailService {
     MedicalExaminationDetailsResponse getMedicalExamination(Integer id);
     List<MedicalExaminationDetailsResponse> getMedicalExaminations();
     List<MedicalExaminationDetailsResponse> getMedicalExaminationDetailByMedicalExamId(Integer id);
-//    MedicalExaminationDetailsResponse modifyMedicalExamDetail(Integer id, MedicalExaminationDetailsRequest medicalExaminationDetailsRequest);
 }

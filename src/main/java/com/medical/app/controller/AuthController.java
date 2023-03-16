@@ -72,9 +72,4 @@ public class AuthController {
             return ResponseEntity.ok().body(message);
         }
     }
-
-    @GetMapping("/roles")
-    public ResponseEntity<?> getAllDoctor(@RequestParam String role){
-        return ResponseEntity.ok().body(authService.getUsersByRole(role));
-    }
 }

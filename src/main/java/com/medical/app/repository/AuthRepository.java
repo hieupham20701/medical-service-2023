@@ -12,4 +12,5 @@ public interface AuthRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findUserByPhoneNumber(String phoneNumber);
     List<User> findUsersByRole(UserRole role);
+    List<User> findUsersByRoleIsNot(UserRole role);
 }

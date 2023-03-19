@@ -23,6 +23,6 @@ public class MedicalDepartment {
     private String description;
     private Date createdDate;
     private Date updatedDate;
-
+    private String codeDepartment;
 
 }

@@ -63,6 +63,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
             tokens.put("dateOfBirth", userResponse.getDateOfBirth());
             tokens.put("idCardNumber", userResponse.getIdCardNumber());
             tokens.put("address", userResponse.getAddress());
+            tokens.put("department",userResponse.getMedicalDepartment());
             tokens.put("createdDate", userResponse.getCreatedDate());
             tokens.put("updatedDate", userResponse.getUpdatedDate());
             tokens.put("role",userResponse.getRole());

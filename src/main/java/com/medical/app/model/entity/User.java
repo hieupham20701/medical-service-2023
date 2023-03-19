@@ -30,6 +30,9 @@ public class User {
     private Date createdDate;
     private Date updatedDate;
     private String avatar;
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private MedicalDepartment medicalDepartment;
     @Enumerated(EnumType.STRING)
     private UserRole role;
 }

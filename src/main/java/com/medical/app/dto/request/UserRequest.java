@@ -15,6 +15,7 @@ public class UserRequest {
     private Date date_of_birth;
     private String id_card_number;
     private String address;
+    private String department_id;
     private Date created_date;
     private Date updated_date;
     private String role;

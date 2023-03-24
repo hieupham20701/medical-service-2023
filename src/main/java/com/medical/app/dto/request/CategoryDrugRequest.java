@@ -12,6 +12,6 @@ import lombok.Setter;
 public class CategoryDrugRequest {
 
     private String name;
-    private String created_date;
-    private String updated_date;
+    private String createDate;
+    private String updatedDate;
 }

@@ -24,4 +24,6 @@ public class DrugResponse {
     private Date createdDate;
     private Date updatedDate;
     private Integer quality;
+    private String note;
+    private String image;
 }

@@ -21,5 +21,13 @@ public class MedicalExaminationResponse {
     private String status;
     private UserResponse doctor;
     private UserResponse reception;
+    private String description;
+    private String note;
+    private Double weight;
+    private Double height;
+    private Double heartbeat;
+    private String bloodPressure;
+    private Double temperature;
+    private Double para;
     private List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses;
 }

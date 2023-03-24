@@ -30,7 +30,7 @@ public class DrugServiceImpl implements DrugService {
     public DrugResponse saveDrug(DrugRequest drugRequest) {
         Drug drug = MapData.mapOne(drugRequest, Drug.class);
         drug.setCreatedDate(new Date());
-        drug.setCategoryDrug(categoryDrugRepository.findById(drugRequest.getCategory_drug_id()).orElse(null));
+        drug.setCategoryDrug(categoryDrugRepository.findById(drugRequest.getCategoryDrugId()).orElse(null));
         return MapData.mapOne(drugRepository.save(drug),DrugResponse.class);
     }
 

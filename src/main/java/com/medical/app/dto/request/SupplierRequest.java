@@ -15,7 +15,8 @@ public class SupplierRequest {
     private String name;
     private String description;
     private String address;
-    private String phone_number;
+    private String email;
+    private String phoneNumber;
     private Date create_date;
     private Date updated_date;
 }

@@ -16,6 +16,7 @@ public class SupplierResponse {
     private String name;
     private String description;
     private String address;
+    private String email;
     private String phoneNumber;
     private Date createdDate;
     private Date updatedDate;

@@ -16,7 +16,7 @@ public class DrugRequest {
     private String unit;
     private String benefit;
     private Double price;
-    private Integer category_drug_id;
-    private Date created_date;
-    private Date updated_date;
+    private Integer categoryDrugId;
+    private String note;
+    private String image;
 }

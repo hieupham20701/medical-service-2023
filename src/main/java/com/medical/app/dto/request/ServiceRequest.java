@@ -18,6 +18,6 @@ public class ServiceRequest {
     private Double price;
     private Date created_date;
     private Date updated_date;
-    private Integer medical_department_id;
-    private Integer category_service_id;
+    private Integer medicalDepartmentId;
+    private Integer categoryServiceId;
 }

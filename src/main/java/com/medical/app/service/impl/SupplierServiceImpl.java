@@ -37,7 +37,6 @@ public class SupplierServiceImpl implements SupplierService {
     public SupplierResponse saveSupplier(SupplierRequest supplierRequest) {
         Supplier supplier = MapData.mapOne(supplierRequest, Supplier.class);
         supplier.setCreatedDate(new Date());
-        supplier.setPhoneNumber(supplierRequest.getPhone_number());
         return MapData.mapOne(supplierRepository.save(supplier),SupplierResponse.class);
     }
 }

@@ -32,8 +32,8 @@ public class ServiceServiceImpl implements ServiceService {
     public ServiceResponse saveService(ServiceRequest serviceRequest) {
         Service service = MapData.mapOne(serviceRequest, Service.class);
         service.setCreatedDate(new Date());
-        service.setCategoryService(categoryServiceRepository.findById(serviceRequest.getCategory_service_id()).orElseThrow(()-> new UsernameNotFoundException("Category Service is not found!")));
-        service.setMedicalDepartment(medicalDepartmentRepository.findById(serviceRequest.getMedical_department_id()).orElseThrow(()-> new UsernameNotFoundException("Medical Department is not found!")));
+        service.setCategoryService(categoryServiceRepository.findById(serviceRequest.getCategoryServiceId()).orElseThrow(()-> new UsernameNotFoundException("Category Service is not found!")));
+        service.setMedicalDepartment(medicalDepartmentRepository.findById(serviceRequest.getMedicalDepartmentId()).orElseThrow(()-> new UsernameNotFoundException("Medical Department is not found!")));
         return MapData.mapOne(serviceRepository.save(service),ServiceResponse.class);
     }
 

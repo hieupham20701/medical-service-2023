@@ -24,10 +24,12 @@ public class Drug {
     private String unit;
     private String benefit;
     private Double price;
-
     @ManyToOne
     @JoinColumn(name = "category_drug_id")
     private CategoryDrug categoryDrug;
+    private String note;
+    private String image;
     private Date createdDate;
     private Date updatedDate;
+    private Integer unitId;
 }

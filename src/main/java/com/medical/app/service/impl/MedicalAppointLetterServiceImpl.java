@@ -36,7 +36,7 @@ public class MedicalAppointLetterServiceImpl implements MedicalAppointLetterServ
     public MedicalAppointmentLetterResponse saveMedicalAppointmentLetter(MedicalAppointmentLetterRequest medicalAppointmentLetterRequest) {
         MedicalAppointmentLetter medicalAppointmentLetter = MapData.mapOne(medicalAppointmentLetterRequest,MedicalAppointmentLetter.class);
         medicalAppointmentLetter.setCreatedDate(new Date(System.currentTimeMillis()));
-        Patient patient = patientRepository.getPatientByPhoneNumber(medicalAppointmentLetterRequest.getPatientRequest().getPhone_number()).orElse(null);
+        Patient patient = patientRepository.getPatientByPhoneNumber(medicalAppointmentLetterRequest.getPatientRequest().getPhoneNumber()).orElse(null);
 
         if(patient == null){
             PatientResponse patientResponse = patientService.savePatientInfo(medicalAppointmentLetterRequest.getPatientRequest());

@@ -22,5 +22,4 @@ public class MedicalExaminationDetailsResponse {
     private Date updatedDate;
     private ServiceResponse serviceResponse;
     private RoomResponse room;
-    private MedicalExaminationResponse medicalExamination;
 }

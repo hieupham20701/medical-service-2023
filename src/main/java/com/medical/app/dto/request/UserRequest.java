@@ -9,14 +9,14 @@ import java.util.Date;
 @Getter
 public class UserRequest {
 
-    private String phone_number;
-    private String full_name;
+    private String phoneNumber;
+    private String fullName;
     private String password;
-    private Date date_of_birth;
-    private String id_card_number;
+    private Date dateOfBirth;
+    private String idCardNumber;
     private String address;
-    private String department_id;
-    private Date created_date;
-    private Date updated_date;
+    private String departmentId;
+    private Date createdDate;
+    private Date updatedDate;
     private String role;
 }

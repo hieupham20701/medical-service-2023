@@ -37,13 +37,12 @@ public class BatchDrugServiceImpl implements BatchDrugService {
     public BatchDrugResponse saveBatchDrug(BatchDrugRequest batchDrugRequest) {
         BatchDrug batchDrug = MapData.mapOne(batchDrugRequest, BatchDrug.class);
         batchDrug.setCreatedDate(new Date());
-        batchDrug.setReceiptDate(batchDrugRequest.getReceipt_date());
-        batchDrug.setUser(authRepository.findById(batchDrugRequest.getUser_id()).orElseThrow(()-> new UsernameNotFoundException("User not exists!")));
-        batchDrug.setSupplier(supplierRepository.findById(batchDrugRequest.getSupplier_id()).orElseThrow(() -> new UsernameNotFoundException("Supplier is not exist")));
+        batchDrug.setUser(authRepository.findById(batchDrugRequest.getUserId()).orElseThrow(()-> new UsernameNotFoundException("User not exists!")));
+        batchDrug.setSupplier(supplierRepository.findById(batchDrugRequest.getSupplierId()).orElseThrow(() -> new UsernameNotFoundException("Supplier is not exist")));
         BatchDrug batchDrugSaved = drugRepository.save(batchDrug);
         BatchDrugResponse batchDrugResponse = MapData.mapOne(batchDrugSaved,BatchDrugResponse.class);
         List<DetailBatchDrugResponse> detailBatchDrugResponses = new ArrayList<>();
-        for(DetailBatchDrugRequest detailBatchDrugRequest : batchDrugRequest.getDetail_batch_drug()){
+        for(DetailBatchDrugRequest detailBatchDrugRequest : batchDrugRequest.getDetailBatchDrug()){
             detailBatchDrugRequest.setBatch_drug_id(batchDrugSaved.getId());
             detailBatchDrugResponses.add(detailBatchDrugService.saveDetailBatchDrug(detailBatchDrugRequest));
         }

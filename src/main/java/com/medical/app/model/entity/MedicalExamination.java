@@ -36,4 +36,12 @@ public class MedicalExamination {
     @ManyToOne
     @JoinColumn(name = "reception_id")
     private User reception;
+    private String description;
+    private String note;
+    private Double weight;
+    private Double height;
+    private Double heartbeat;
+    private String bloodPressure;
+    private Double temperature;
+    private Double para;
 }

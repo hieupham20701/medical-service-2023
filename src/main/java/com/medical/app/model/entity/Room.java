@@ -22,7 +22,7 @@ public class Room {
     private String description;
     private Boolean status;
     private Date createdDate;
-    private Date updateDate;
+    private Date updatedDate;
     @ManyToOne
     @JoinColumn(name = "department_id")
     private MedicalDepartment medicalDepartment;

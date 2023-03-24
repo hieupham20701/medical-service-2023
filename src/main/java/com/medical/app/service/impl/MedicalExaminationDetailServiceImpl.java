@@ -23,13 +23,15 @@ public class MedicalExaminationDetailServiceImpl implements MedicalExaminationDe
     private final RoomRepository roomRepository;
     @Override
     public MedicalExaminationDetailsResponse saveMedicalExaminationDetail(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest) {
-        MedicalExaminationDetails medicalExaminationDetails = MapData.mapOne(medicalExaminationDetailsRequest,MedicalExaminationDetails.class);
-        medicalExaminationDetails.setMedicalExamination(medicalExaminationRepository.findById(medicalExaminationDetailsRequest.getMedicalExamination_id()).orElseThrow(()-> new UsernameNotFoundException("Medical Examination is not exists!")));
+        MedicalExaminationDetails medicalExaminationDetails = new MedicalExaminationDetails();
+        medicalExaminationDetails.setUnitPrice(medicalExaminationDetailsRequest.getUnitPrice());
+        medicalExaminationDetails.setQuality(medicalExaminationDetailsRequest.getQuality());
         medicalExaminationDetails.setCreatedDate(new Date());
-        medicalExaminationDetails.setUnitPrice(medicalExaminationDetailsRequest.getUnit_price());
-        medicalExaminationDetails.setService(serviceRepository.findById(medicalExaminationDetailsRequest.getService_id()).orElseThrow(()-> new UsernameNotFoundException("Service is not exists!")));
-        medicalExaminationDetails.setRoom(roomRepository.findById(medicalExaminationDetailsRequest.getRoom_id()).orElseThrow(()-> new UsernameNotFoundException("Service is not exists!")));
-        return MapData.mapOne(medicalExaminationDetailRepository.save(medicalExaminationDetails), MedicalExaminationDetailsResponse.class);
+        medicalExaminationDetails.setMedicalExamination(medicalExaminationRepository.findById(medicalExaminationDetailsRequest.getMedicalExaminationId()).orElseThrow(()-> new UsernameNotFoundException("Medical Examination not exist!")));
+        medicalExaminationDetails.setService(serviceRepository.findById(medicalExaminationDetailsRequest.getServiceId()).orElseThrow(()-> new UsernameNotFoundException("Service is not exists!")));
+        medicalExaminationDetails.setRoom(roomRepository.findById(medicalExaminationDetailsRequest.getRoomId()).orElseThrow(()-> new UsernameNotFoundException("Room is not exists!")));
+        MedicalExaminationDetails medicalExaminationDetailsSaved = medicalExaminationDetailRepository.save(medicalExaminationDetails);
+        return MapData.mapOne(medicalExaminationDetailsSaved, MedicalExaminationDetailsResponse.class);
     }
 
     @Override

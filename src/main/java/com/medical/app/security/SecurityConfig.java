@@ -51,11 +51,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests().antMatchers(GET ,"/api/auth/refresh/**" ).permitAll();
 //        http.authorizeRequests().antMatchers("/api/patients/**","/api/services/**","/api/drugs/**","/api/detail_batch_drugs/**","/api/medical_letters/**","/api/medical_examinations/**","/api/medical_detail_examinations/**","/api/medicines/**","/api/suppliers/**").hasAnyAuthority("ADMIN");
-        http.authorizeRequests().antMatchers("/api/patients/**","/api/services/**","/api/drugs/**","/api/detail_batch_drugs/**","/api/medical_letters/**","/api/medical_examinations/**","/api/medical_detail_examinations/**","/api/medicines/**","/api/suppliers/**","/api/users/**","/api/category_drugs/**","/api/medical_departments/**","/api/rooms/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/patients/**","/api/services/**","/api/drugs/**","/api/detail_batch_drugs/**","/api/medical_letters/**","/api/medical_examinations/**","/api/medical_detail_examinations/**","/api/medicines/**","/api/suppliers/**","/api/users/**","/api/category_drugs/**","/api/medical_departments/**","/api/rooms/**","/api/batch_drugs/**").permitAll();
 
         http.authorizeRequests().antMatchers(GET ,"/api/auth/roles/**" ).hasAnyAuthority("ADMIN");
 
-        http.authorizeRequests().antMatchers("/api/batch_drugs/**").hasAnyAuthority("NEWMEM");
+//        http.authorizeRequests().antMatchers("/api/batch_drugs/**").hasAnyAuthority("NEWMEM");
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

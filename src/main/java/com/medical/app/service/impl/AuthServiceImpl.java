@@ -43,9 +43,7 @@ public class AuthServiceImpl implements UserDetailsService, AuthService {
     @Override
     public UserResponse register(UserRequest userRequest) {
         User user = MapData.mapOne(userRequest, User.class);
-        user.setPhoneNumber(userRequest.getPhone_number());
-        user.setFullName(userRequest.getFull_name());
-        user.setRole(UserRole.NEWMEM);
+        user.setRole(UserRole.valueOf(userRequest.getRole()));
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         user.setCreatedDate(new Timestamp(System.currentTimeMillis()));
         User registerUser  = authRepository.save(user);

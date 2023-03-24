@@ -12,13 +12,13 @@ import java.util.Date;
 @Getter
 public class PatientRequest {
 
-    private String id_card;
-    private String phone_number;
-    private String full_name;
+    private String idCard;
+    private String phoneNumber;
+    private String fullName;
     private String address;
-    private Date created_date;
-    private Date update_date;
-    private Date date_of_birth;
-    private String insurance_number;
+    private Date createdDate;
+    private Date updateDate;
+    private Date dateOfBirth;
+    private String insuranceNumber;
     private Boolean sex;
 }

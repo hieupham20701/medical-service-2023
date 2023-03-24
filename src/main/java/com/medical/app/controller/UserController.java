@@ -1,5 +1,6 @@
 package com.medical.app.controller;
 
+import com.medical.app.dto.request.UserRequest;
 import com.medical.app.service.AuthService;
 import com.medical.app.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -32,4 +33,7 @@ public class UserController {
         return ResponseEntity.ok().body(authService.getUserById(id));
     }
 
+//    public ResponseEntity<?> saveUser(@RequestBody UserRequest userRequest){
+//
+//    }
 }

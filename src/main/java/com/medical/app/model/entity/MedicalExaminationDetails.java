@@ -20,7 +20,7 @@ public class MedicalExaminationDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Double unitPrice;
-    private int quality;
+    private Integer quality;
 
     private Date createdDate;
     private Date updatedDate;

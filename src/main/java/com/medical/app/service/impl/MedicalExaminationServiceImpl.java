@@ -37,18 +37,15 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
     @Override
     public MedicalExaminationResponse saveMedicalExamination(MedicalExaminationRequest medicalExaminationRequest) {
         MedicalExamination medicalExamination = MapData.mapOne(medicalExaminationRequest, MedicalExamination.class);
-        medicalExamination.setBuyMedicine(medicalExaminationRequest.getBuy_medicine());
         medicalExamination.setCreatedDate(new Date());
-        medicalExamination.setDateRecheckUp(medicalExaminationRequest.getDate_recheck_up());
-        medicalExamination.setDoctor(authRepository.findById(medicalExaminationRequest.getDoctor_id()).orElseThrow(()-> new UsernameNotFoundException("Doctor is not exists!")));
-        medicalExamination.setReception(authRepository.findById(medicalExaminationRequest.getReception_id()).orElseThrow(()-> new UsernameNotFoundException("Reception is not exists!")));
-        if(patientRepository.getPatientByPhoneNumber(medicalExaminationRequest.getPatient().getPhone_number()).orElse(null) == null){
+        medicalExamination.setDoctor(authRepository.findById(medicalExaminationRequest.getDoctorId()).orElse(null));
+        medicalExamination.setReception(authRepository.findById(medicalExaminationRequest.getReceptionId()).orElseThrow(()-> new UsernameNotFoundException("Reception is not exists!")));
+        if(patientRepository.getPatientByPhoneNumber(medicalExaminationRequest.getPatient().getPhoneNumber()).orElse(null) == null){
             medicalExamination.setPatient(MapData.mapOne(patientService.savePatientInfo(medicalExaminationRequest.getPatient()), Patient.class));
         }else {
-            medicalExamination.setPatient(patientRepository.getPatientByPhoneNumber(medicalExaminationRequest.getPatient().getPhone_number()).orElseThrow(()-> new UsernameNotFoundException("Patient is not exists!")));
+            medicalExamination.setPatient(patientRepository.getPatientByPhoneNumber(medicalExaminationRequest.getPatient().getPhoneNumber()).orElseThrow(()-> new UsernameNotFoundException("Patient is not exists!")));
         }
         medicalExamination.setStatus(StatusMedicalDetail.valueOf(medicalExaminationRequest.getStatus()));
-        medicalExamination.setTotalPrice(medicalExaminationRequest.getTotal_price());
         return MapData.mapOne(medicalExaminationRepository.save(medicalExamination), MedicalExaminationResponse.class);
     }
 
@@ -73,21 +70,36 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
     @Override
     public MedicalExaminationResponse updateMedicalExamination(Integer id, MedicalExaminationRequest medicalExaminationRequest) {
         MedicalExamination medicalExamination = medicalExaminationRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("Medical Examination is not exists!"));
-        if(medicalExaminationRequest.getBuy_medicine() != null)
-            medicalExamination.setBuyMedicine(medicalExaminationRequest.getBuy_medicine());
-        if(medicalExaminationRequest.getDate_recheck_up() != null)
-            medicalExamination.setDateRecheckUp(medicalExaminationRequest.getDate_recheck_up());
-        if(medicalExaminationRequest.getDoctor_id() != null)
-            medicalExamination.setDoctor(authRepository.findById(medicalExaminationRequest.getDoctor_id()).orElseThrow(()-> new UsernameNotFoundException("Doctor is not exists!")));
+        if(medicalExaminationRequest.getBuyMedicine() != null)
+            medicalExamination.setBuyMedicine(medicalExaminationRequest.getBuyMedicine());
+        if(medicalExaminationRequest.getDateRecheckUp() != null)
+            medicalExamination.setDateRecheckUp(medicalExaminationRequest.getDateRecheckUp());
+        if(medicalExaminationRequest.getDoctorId() != null)
+            medicalExamination.setDoctor(authRepository.findById(medicalExaminationRequest.getDoctorId()).orElseThrow(()-> new UsernameNotFoundException("Doctor is not exists!")));
         if(medicalExaminationRequest.getStatus() != null)
             medicalExamination.setStatus(StatusMedicalDetail.valueOf(medicalExaminationRequest.getStatus()));
         if(medicalExaminationRequest.getDiagnose() != null)
             medicalExamination.setDiagnose(medicalExaminationRequest.getDiagnose());
-        if(medicalExaminationRequest.getTotal_price() != null)
-            medicalExamination.setTotalPrice(medicalExaminationRequest.getTotal_price());
+        if(medicalExaminationRequest.getTotalPrice() != null)
+            medicalExamination.setTotalPrice(medicalExaminationRequest.getTotalPrice());
+        if(medicalExaminationRequest.getNote() != null){
+            medicalExamination.setNote(medicalExaminationRequest.getNote());
+        }
+        if (medicalExaminationRequest.getWeight() != null)
+            medicalExamination.setWeight(medicalExaminationRequest.getWeight());
+        if (medicalExaminationRequest.getHeight() != null)
+            medicalExamination.setHeight(medicalExaminationRequest.getHeight());
+        if (medicalExaminationRequest.getHeartbeat() != null)
+            medicalExamination.setHeartbeat(medicalExaminationRequest.getHeartbeat());
+        if (medicalExaminationRequest.getBloodPressure() != null)
+            medicalExamination.setBloodPressure(medicalExaminationRequest.getBloodPressure());
+        if(medicalExaminationRequest.getTemperature() != null)
+            medicalExamination.setTemperature(medicalExaminationRequest.getTemperature());
+        if (medicalExaminationRequest.getPara() != null)
+            medicalExamination.setPara(medicalExaminationRequest.getPara());
         List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses = new ArrayList<>();
         for(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest : medicalExaminationRequest.getMedicalExaminationDetailsRequests()){
-            medicalExaminationDetailsRequest.setMedicalExamination_id(medicalExamination.getId());
+            medicalExaminationDetailsRequest.setMedicalExaminationId(medicalExamination.getId());
             medicalExaminationDetailsResponses.add(medicalExaminationDetailService.saveMedicalExaminationDetail(medicalExaminationDetailsRequest));
         }
         medicalExamination.setUpdatedDate(new Date());

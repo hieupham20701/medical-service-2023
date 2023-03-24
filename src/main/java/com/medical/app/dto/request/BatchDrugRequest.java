@@ -18,10 +18,10 @@ public class BatchDrugRequest {
 
     private String name;
     private String description;
-    private Date receipt_date;
-    private Date created_date;
-    private Date updated_date;
-    private Integer user_id;
-    private Integer supplier_id;
-    private List<DetailBatchDrugRequest> detail_batch_drug;
+    private Date receiptDate;
+    private Date createdDate;
+    private Date updatedDate;
+    private Integer userId;
+    private Integer supplierId;
+    private List<DetailBatchDrugRequest> detailBatchDrug;
 }

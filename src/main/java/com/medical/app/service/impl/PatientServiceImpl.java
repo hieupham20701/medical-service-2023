@@ -36,11 +36,7 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public PatientResponse savePatientInfo(PatientRequest request) {
         Patient patient = MapData.mapOne(request, Patient.class);
-        patient.setIdCard(request.getId_card());
-        patient.setFullName(request.getFull_name());
         patient.setCreatedDate(new Date());
-        patient.setDateOfBirth(request.getDate_of_birth());
-        patient.setPhoneNumber(request.getPhone_number());
         return MapData.mapOne(patientRepository.save(patient), PatientResponse.class);
     }
 

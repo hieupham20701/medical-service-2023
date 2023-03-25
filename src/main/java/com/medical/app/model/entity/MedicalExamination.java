@@ -44,4 +44,5 @@ public class MedicalExamination {
     private String bloodPressure;
     private Double temperature;
     private Double para;
+    private String result;
 }

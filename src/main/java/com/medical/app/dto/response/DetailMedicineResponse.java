@@ -1,9 +1,5 @@
 package com.medical.app.dto.response;
 
-import com.medical.app.model.entity.Drug;
-import com.medical.app.model.entity.MedicalExamination;
-import com.medical.app.model.entity.MedicalExaminationDetails;
-import com.medical.app.model.entity.Medicine;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

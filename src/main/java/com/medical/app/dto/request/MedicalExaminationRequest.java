@@ -30,4 +30,5 @@ public class MedicalExaminationRequest {
     private String bloodPressure;
     private Double temperature;
     private Double para;
+    private String result;
 }

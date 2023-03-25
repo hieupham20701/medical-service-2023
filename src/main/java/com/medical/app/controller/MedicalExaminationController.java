@@ -1,5 +1,6 @@
 package com.medical.app.controller;
 
+import com.medical.app.dto.request.DetailMedicineRequest;
 import com.medical.app.dto.request.MedicalExaminationRequest;
 import com.medical.app.service.MedicalExaminationService;
 import lombok.RequiredArgsConstructor;
@@ -8,8 +9,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -62,7 +65,11 @@ public class MedicalExaminationController {
     }
 
     @PostMapping(value = "/date")
-    public ResponseEntity<?> getMedicalExaminationsByDate(@RequestParam @DateTimeFormat(pattern="dd/MM/yyyy") Date date){
-        return ResponseEntity.ok().body(medicalExaminationService.getMedicalExaminationByDate(date));
+    public ResponseEntity<?> getMedicalExaminationsByDate(@RequestParam @DateTimeFormat(pattern="dd/MM/yyyy") Date date, @RequestParam Integer roomId){
+        return ResponseEntity.ok().body(medicalExaminationService.getMedicalExaminationByDateAndRoom(date, roomId));
+    }
+    @PostMapping("/medicine/{id}")
+    public ResponseEntity<?> saveMedicineDetail(@PathVariable Integer id, @RequestBody List<DetailMedicineRequest> detailMedicineRequests){
+        return ResponseEntity.ok().body(medicalExaminationService.saveMedicineDetail(id,detailMedicineRequests));
     }
 }

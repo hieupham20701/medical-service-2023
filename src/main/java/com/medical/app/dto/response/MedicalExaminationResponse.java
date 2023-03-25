@@ -29,5 +29,7 @@ public class MedicalExaminationResponse {
     private String bloodPressure;
     private Double temperature;
     private Double para;
+    private String result;
     private List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses;
+    private List<DetailMedicineResponse> detailMedicineResponses;
 }

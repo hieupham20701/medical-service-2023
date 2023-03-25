@@ -1,5 +1,6 @@
 package com.medical.app.service;
 
+import com.medical.app.dto.request.DetailMedicineRequest;
 import com.medical.app.dto.request.MedicalExaminationRequest;
 import com.medical.app.dto.response.MedicalExaminationResponse;
 
@@ -15,5 +16,6 @@ public interface MedicalExaminationService {
     MedicalExaminationResponse updateMedicalExamination(Integer id, MedicalExaminationRequest medicalExaminationRequest);
 
     List<MedicalExaminationResponse> getHistoryMedicalExaminationPatientId(Integer id);
-    List<MedicalExaminationResponse> getMedicalExaminationByDate(Date date);
+    List<MedicalExaminationResponse> getMedicalExaminationByDateAndRoom(Date date, Integer room_id);
+    MedicalExaminationResponse saveMedicineDetail(Integer examinationId, List<DetailMedicineRequest> detailMedicineRequests);
 }

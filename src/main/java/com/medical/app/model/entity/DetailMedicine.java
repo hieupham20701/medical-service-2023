@@ -25,8 +25,8 @@ public class DetailMedicine {
     @JoinColumn(name = "drug_id")
     private Drug drug;
     @ManyToOne
-    @JoinColumn(name = "medicine_id")
-    private Medicine medicine;
+    @JoinColumn(name = "medical_examination_id")
+    private MedicalExamination medicalExamination;
     private String unit;
     private Date createdDate;
     private Date updatedDate;

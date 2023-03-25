@@ -1,13 +1,13 @@
 package com.medical.app.service.impl;
 
+import com.medical.app.dto.request.DetailMedicineRequest;
 import com.medical.app.dto.request.MedicalExaminationDetailsRequest;
 import com.medical.app.dto.request.MedicalExaminationRequest;
+import com.medical.app.dto.response.DetailMedicineResponse;
 import com.medical.app.dto.response.MedicalExaminationDetailsResponse;
 import com.medical.app.dto.response.MedicalExaminationResponse;
 import com.medical.app.mapper.MapData;
-import com.medical.app.model.entity.MedicalExamination;
-import com.medical.app.model.entity.MedicalExaminationDetails;
-import com.medical.app.model.entity.Patient;
+import com.medical.app.model.entity.*;
 import com.medical.app.model.enums.StatusMedicalDetail;
 import com.medical.app.repository.*;
 import com.medical.app.service.MedicalExaminationDetailService;
@@ -32,8 +32,9 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
     private final AuthRepository authRepository;
     private final PatientRepository patientRepository;
     private final PatientService patientService;
-
+    private final DetailMedicineRepository detailMedicineRepository;
     private final MedicalExaminationDetailService medicalExaminationDetailService;
+    private final DrugRepository drugRepository;
     @Override
     public MedicalExaminationResponse saveMedicalExamination(MedicalExaminationRequest medicalExaminationRequest) {
         MedicalExamination medicalExamination = MapData.mapOne(medicalExaminationRequest, MedicalExamination.class);
@@ -54,6 +55,8 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
         MedicalExaminationResponse medicalExaminationResponse = MapData.mapOne(medicalExaminationRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("Medical Examinations is not exists!")), MedicalExaminationResponse.class);
         medicalExaminationResponse.setMedicalExaminationDetailsResponses(MapData.mapList(medicalExaminationDetailRepository.findMedicalExaminationDetailsByMedicalExaminationId(id).orElseThrow(()-> new UsernameNotFoundException("Medical Examinations is not exists!")),
                 MedicalExaminationDetailsResponse.class));
+        medicalExaminationResponse.setDetailMedicineResponses(MapData.mapList(detailMedicineRepository.findDetailMedicinesByMedicalExaminationId(medicalExaminationResponse.getId()),DetailMedicineResponse.class));
+
         return medicalExaminationResponse;
     }
 
@@ -63,6 +66,7 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
         List<MedicalExaminationResponse> medicalExaminationResponses = MapData.mapList(medicalExaminationRepository.findAll(),MedicalExaminationResponse.class);
        for (MedicalExaminationResponse medicalExaminationResponse : medicalExaminationResponses){
            medicalExaminationResponse.setMedicalExaminationDetailsResponses(MapData.mapList(medicalExaminationDetailRepository.findMedicalExaminationDetailsByMedicalExaminationId(medicalExaminationResponse.getId()).orElseThrow(()-> new UsernameNotFoundException("Medical Examinations is not exists!")),MedicalExaminationDetailsResponse.class));
+           medicalExaminationResponse.setDetailMedicineResponses(MapData.mapList(detailMedicineRepository.findDetailMedicinesByMedicalExaminationId(medicalExaminationResponse.getId()),DetailMedicineResponse.class));
        }
         return MapData.mapList(medicalExaminationRepository.findAll(),MedicalExaminationResponse.class);
     }
@@ -113,13 +117,38 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
         List<MedicalExaminationResponse> medicalExaminationResponses = MapData.mapList(medicalExaminationRepository.findMedicalExaminationsByPatientId(id), MedicalExaminationResponse.class);
         for (MedicalExaminationResponse medicalExaminationResponse : medicalExaminationResponses){
             medicalExaminationResponse.setMedicalExaminationDetailsResponses(MapData.mapList(medicalExaminationDetailRepository.findMedicalExaminationDetailsByMedicalExaminationId(medicalExaminationResponse.getId()).orElseThrow(() -> new UsernameNotFoundException("Medical Examination not found")),MedicalExaminationDetailsResponse.class));
+            medicalExaminationResponse.setDetailMedicineResponses(MapData.mapList(detailMedicineRepository.findDetailMedicinesByMedicalExaminationId(medicalExaminationResponse.getId()),DetailMedicineResponse.class));
         }
         return medicalExaminationResponses;
     }
 
     @Override
-    public List<MedicalExaminationResponse> getMedicalExaminationByDate(Date date) {
-        List<MedicalExamination> medicalExaminations = medicalExaminationRepository.findMedicalExaminationsByCreatedDate(date);
-        return MapData.mapList(medicalExaminations,MedicalExaminationResponse.class);
+    public List<MedicalExaminationResponse> getMedicalExaminationByDateAndRoom(Date date, Integer room_id) {
+        List<MedicalExamination> medicalExaminations = medicalExaminationRepository.findMedicalExaminationsByCreatedDateAndDoctorRoomId(date, room_id);
+        List<MedicalExaminationResponse> medicalExaminationResponses = MapData.mapList(medicalExaminations,MedicalExaminationResponse.class);
+        for (MedicalExaminationResponse medicalExaminationResponse: medicalExaminationResponses){
+            List<DetailMedicineResponse> detailMedicineResponses = MapData.mapList(detailMedicineRepository.findDetailMedicinesByMedicalExaminationId(medicalExaminationResponse.getId()),DetailMedicineResponse.class);
+            medicalExaminationResponse.setDetailMedicineResponses(detailMedicineResponses);
+            medicalExaminationResponse.setMedicalExaminationDetailsResponses(MapData.mapList(medicalExaminationDetailRepository.findMedicalExaminationDetailsByMedicalExaminationId(medicalExaminationResponse.getId()).orElseThrow(() -> new UsernameNotFoundException("Medical Examination not found")),MedicalExaminationDetailsResponse.class));
+        }
+        return medicalExaminationResponses;
+    }
+
+    @Override
+    public MedicalExaminationResponse saveMedicineDetail(Integer examinationId, List<DetailMedicineRequest> detailMedicineRequests) {
+        MedicalExamination medicalExamination = medicalExaminationRepository.findById(examinationId).orElseThrow(()-> new UsernameNotFoundException("Not found"));
+        List<DetailMedicineResponse> detailMedicineResponses = new ArrayList<>();
+        for(DetailMedicineRequest detailMedicineRequest : detailMedicineRequests){
+            DetailMedicine detailMedicine = MapData.mapOne(detailMedicineRequest, DetailMedicine.class);
+            detailMedicine.setMedicalExamination(medicalExamination);
+            detailMedicine.setCreatedDate(new Date());
+            Drug drug = drugRepository.findById(detailMedicineRequest.getDrugId()).orElseThrow(()-> new UsernameNotFoundException("Drug not found!"));
+            detailMedicine.setDrug(drug);
+            detailMedicine.setTotalPrice(drug.getPrice()*detailMedicine.getQuality());
+            detailMedicineResponses.add(MapData.mapOne(detailMedicineRepository.save(detailMedicine), DetailMedicineResponse.class));
+        }
+        MedicalExaminationResponse medicalExaminationResponse = MapData.mapOne(medicalExamination,MedicalExaminationResponse.class);
+        medicalExaminationResponse.setDetailMedicineResponses(detailMedicineResponses);
+        return medicalExaminationResponse;
     }
 }

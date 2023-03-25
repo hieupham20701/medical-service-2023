@@ -9,13 +9,17 @@ import com.medical.app.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.util.UUID;
 import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final AuthRepository authRepository;
+    private final UploadServiceImpl uploadService;
     @Override
     public UserResponse changeRole(String role, Integer id) {
         User user = authRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("User not found"));
@@ -38,5 +42,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse getUserById(Integer id) {
         return null;
+    }
+
+    @Override
+    public UserResponse uploadAvatar(MultipartFile multipartFile, Integer userId) {
+        try {
+            String fileName = multipartFile.getOriginalFilename();
+            assert fileName != null;
+            fileName = UUID.randomUUID().toString().concat(uploadService.getExtension(fileName));
+            File file = uploadService.convertToFile(multipartFile,fileName);
+
+            String url = uploadService.uploadFile(file,fileName);
+
+            file.delete();
+
+            User user = authRepository.findById(userId).orElseThrow(()-> new UsernameNotFoundException("Not found user"));
+            user.setAvatar(url);
+
+            return MapData.mapOne(authRepository.save(user), UserResponse.class);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
     }
 }

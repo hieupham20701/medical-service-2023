@@ -1,6 +1,7 @@
 package com.medical.app.service;
 
 import com.medical.app.dto.response.UserResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -9,4 +10,5 @@ public interface UserService {
     List<UserResponse> getAllUser();
     List<UserResponse> getUserByRole(String role);
     UserResponse getUserById(Integer id);
+    UserResponse uploadAvatar(MultipartFile file, Integer userId);
 }

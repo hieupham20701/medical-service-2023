@@ -20,6 +20,7 @@ public class MedicalExaminationRequest {
     private PatientRequest patient;
     private String status;
     private List<MedicalExaminationDetailsRequest> medicalExaminationDetailsRequests;
+    private List<DetailMedicineRequest> detailMedicineRequests;
     private Integer doctorId;
     private Integer receptionId;
     private String description;

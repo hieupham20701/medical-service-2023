@@ -101,14 +101,21 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
             medicalExamination.setTemperature(medicalExaminationRequest.getTemperature());
         if (medicalExaminationRequest.getPara() != null)
             medicalExamination.setPara(medicalExaminationRequest.getPara());
+
         List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses = new ArrayList<>();
-        for(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest : medicalExaminationRequest.getMedicalExaminationDetailsRequests()){
-            medicalExaminationDetailsRequest.setMedicalExaminationId(medicalExamination.getId());
-            medicalExaminationDetailsResponses.add(medicalExaminationDetailService.saveMedicalExaminationDetail(medicalExaminationDetailsRequest));
+        if(medicalExaminationRequest.getMedicalExaminationDetailsRequests() != null){
+            for(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest : medicalExaminationRequest.getMedicalExaminationDetailsRequests()){
+                medicalExaminationDetailsRequest.setMedicalExaminationId(medicalExamination.getId());
+                medicalExaminationDetailsResponses.add(medicalExaminationDetailService.saveMedicalExaminationDetail(medicalExaminationDetailsRequest));
+            }
         }
         medicalExamination.setUpdatedDate(new Date());
         MedicalExaminationResponse medicalExaminationResponse = MapData.mapOne(medicalExaminationRepository.save(medicalExamination), MedicalExaminationResponse.class);
         medicalExaminationResponse.setMedicalExaminationDetailsResponses(medicalExaminationDetailsResponses);
+        if(medicalExaminationRequest.getDetailMedicineRequests() != null){
+            MedicalExaminationResponse medicalExaminationMedicineDetail = saveMedicineDetail(medicalExamination.getId(),medicalExaminationRequest.getDetailMedicineRequests());
+            medicalExaminationResponse.setDetailMedicineResponses(medicalExaminationMedicineDetail.getDetailMedicineResponses());
+        }
         return medicalExaminationResponse;
     }
 

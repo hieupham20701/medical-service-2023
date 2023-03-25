@@ -6,6 +6,7 @@ import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -18,12 +19,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.net.URLEncoder.encode;
+@Component
 public class UploadServiceImpl {
-    private static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/Medical-service-2023.appspot.com/o/%s?alt=media&token=%s";
+    private static final String DOWNLOAD_URL = "https://firebasestorage.googleapis.com/v0/b/medical-service-2023.appspot.com/o/%s?alt=media&token=%s";
 
     public String uploadFile(File file, String fileName) throws IOException {
 
-        BlobId blobId = BlobId.of("Medical-service-2023.appspot.com", fileName);
+        BlobId blobId = BlobId.of("medical-service-2023.appspot.com", fileName);
         Map<String, String> map = new HashMap<>();
         map.put("firebaseStorageDownloadTokens", fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setMetadata(map).setContentType("media").build();

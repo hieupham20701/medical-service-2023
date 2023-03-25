@@ -41,10 +41,7 @@ public class AuthController {
             return ResponseEntity.badRequest().body(error);
         }
     }
-//    @PostMapping(value = "/avatar",consumes = "multipart/form-data")
-//    public ResponseEntity<?> storageImage(@RequestParam( value = "file", required = false) MultipartFile file){
-//
-//    }
+
     @PostMapping(value = "/refresh_token", consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<?> refreshToken(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String, Object> body){
         try {

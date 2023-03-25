@@ -21,4 +21,9 @@ public class CategoryServiceServiceImpl implements CategoryServiceService {
     public List<CategoryServiceResponse> getAllCategoryService() {
         return MapData.mapList(categoryServiceRepository.findAll(),CategoryServiceResponse.class);
     }
+
+    @Override
+    public List<CategoryServiceResponse> getCategoryServiceCLS() {
+        return MapData.mapList(categoryServiceRepository.findCategoryServicesByIsCls(true), CategoryServiceResponse.class);
+    }
 }

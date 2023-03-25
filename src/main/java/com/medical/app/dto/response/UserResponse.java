@@ -18,7 +18,7 @@ public class UserResponse {
     private String address;
     private Date createdDate;
     private Date updatedDate;
-    private MedicalDepartmentResponse medicalDepartment;
+    private RoomResponse room;
     private String role;
     private String avatar;
 }

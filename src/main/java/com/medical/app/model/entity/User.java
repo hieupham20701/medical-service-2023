@@ -31,8 +31,8 @@ public class User {
     private Date updatedDate;
     private String avatar;
     @ManyToOne
-    @JoinColumn(name = "department_id")
-    private MedicalDepartment medicalDepartment;
+    @JoinColumn(name = "room_id")
+    private Room room;
     @Enumerated(EnumType.STRING)
     private UserRole role;
 }

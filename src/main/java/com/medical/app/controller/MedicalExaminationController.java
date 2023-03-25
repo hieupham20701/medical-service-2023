@@ -4,9 +4,11 @@ import com.medical.app.dto.request.MedicalExaminationRequest;
 import com.medical.app.service.MedicalExaminationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,4 +61,8 @@ public class MedicalExaminationController {
         }
     }
 
+    @PostMapping(value = "/date")
+    public ResponseEntity<?> getMedicalExaminationsByDate(@RequestParam @DateTimeFormat(pattern="dd/MM/yyyy") Date date){
+        return ResponseEntity.ok().body(medicalExaminationService.getMedicalExaminationByDate(date));
+    }
 }

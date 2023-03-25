@@ -116,4 +116,10 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
         }
         return medicalExaminationResponses;
     }
+
+    @Override
+    public List<MedicalExaminationResponse> getMedicalExaminationByDate(Date date) {
+        List<MedicalExamination> medicalExaminations = medicalExaminationRepository.findMedicalExaminationsByCreatedDate(date);
+        return MapData.mapList(medicalExaminations,MedicalExaminationResponse.class);
+    }
 }

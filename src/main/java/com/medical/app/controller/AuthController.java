@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +41,10 @@ public class AuthController {
             return ResponseEntity.badRequest().body(error);
         }
     }
-
+//    @PostMapping(value = "/avatar",consumes = "multipart/form-data")
+//    public ResponseEntity<?> storageImage(@RequestParam( value = "file", required = false) MultipartFile file){
+//
+//    }
     @PostMapping(value = "/refresh_token", consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<?> refreshToken(HttpServletRequest request, HttpServletResponse response, @RequestBody Map<String, Object> body){
         try {

@@ -102,7 +102,12 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
         if (medicalExaminationRequest.getPara() != null)
             medicalExamination.setPara(medicalExaminationRequest.getPara());
 
-        List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses = new ArrayList<>();
+        List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses = MapData.mapList(medicalExaminationDetailRepository.findMedicalExaminationDetailsByMedicalExaminationId(id).orElseThrow(()-> new UsernameNotFoundException("Medical Examinations is not exists!")),
+                MedicalExaminationDetailsResponse.class);
+        List<DetailMedicineResponse> detailMedicineResponses = MapData.mapList(detailMedicineRepository.findDetailMedicinesByMedicalExaminationId(id),DetailMedicineResponse.class);
+
+
+
         if(medicalExaminationRequest.getMedicalExaminationDetailsRequests() != null){
             for(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest : medicalExaminationRequest.getMedicalExaminationDetailsRequests()){
                 medicalExaminationDetailsRequest.setMedicalExaminationId(medicalExamination.getId());
@@ -114,8 +119,9 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
         medicalExaminationResponse.setMedicalExaminationDetailsResponses(medicalExaminationDetailsResponses);
         if(medicalExaminationRequest.getDetailMedicineRequests() != null){
             MedicalExaminationResponse medicalExaminationMedicineDetail = saveMedicineDetail(medicalExamination.getId(),medicalExaminationRequest.getDetailMedicineRequests());
-            medicalExaminationResponse.setDetailMedicineResponses(medicalExaminationMedicineDetail.getDetailMedicineResponses());
+            detailMedicineResponses.addAll(medicalExaminationMedicineDetail.getDetailMedicineResponses());
         }
+        medicalExaminationResponse.setDetailMedicineResponses(detailMedicineResponses);
         return medicalExaminationResponse;
     }
 

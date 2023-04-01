@@ -35,7 +35,7 @@ public class UserController {
     }
     @PostMapping(value = "/avatar",consumes = "multipart/form-data")
     public ResponseEntity<?> uploadAvatar(@RequestParam( value = "file", required = false) MultipartFile file, @RequestParam Integer userId){
-        return ResponseEntity.ok().body(userService.uploadAvatar(file,userId));
+        return ResponseEntity.ok().body(userService.uploadAvatar(file));
     }
 //    public ResponseEntity<?> saveUser(@RequestBody UserRequest userRequest){
 //

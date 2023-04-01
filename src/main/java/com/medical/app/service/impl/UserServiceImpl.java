@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse uploadAvatar(MultipartFile multipartFile, Integer userId) {
+    public String uploadAvatar(MultipartFile multipartFile) {
         try {
             String fileName = multipartFile.getOriginalFilename();
             assert fileName != null;
@@ -56,10 +56,7 @@ public class UserServiceImpl implements UserService {
 
             file.delete();
 
-            User user = authRepository.findById(userId).orElseThrow(()-> new UsernameNotFoundException("Not found user"));
-            user.setAvatar(url);
-
-            return MapData.mapOne(authRepository.save(user), UserResponse.class);
+            return url;
         }catch (Exception e){
             throw new RuntimeException(e);
         }

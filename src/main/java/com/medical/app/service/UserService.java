@@ -10,5 +10,5 @@ public interface UserService {
     List<UserResponse> getAllUser();
     List<UserResponse> getUserByRole(String role);
     UserResponse getUserById(Integer id);
-    UserResponse uploadAvatar(MultipartFile file, Integer userId);
+    String uploadAvatar(MultipartFile file);
 }

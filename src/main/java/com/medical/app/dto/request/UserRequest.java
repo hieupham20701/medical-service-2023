@@ -19,4 +19,5 @@ public class UserRequest {
     private Date createdDate;
     private Date updatedDate;
     private String role;
+    private String avatar;
 }

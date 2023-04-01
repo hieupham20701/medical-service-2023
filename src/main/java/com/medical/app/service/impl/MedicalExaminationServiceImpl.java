@@ -62,13 +62,14 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
 
     @Override
     public List<MedicalExaminationResponse> getAllMedicalExamination() {
-
+        List<MedicalExamination> medicalExaminations = medicalExaminationRepository.findAll();
         List<MedicalExaminationResponse> medicalExaminationResponses = MapData.mapList(medicalExaminationRepository.findAll(),MedicalExaminationResponse.class);
        for (MedicalExaminationResponse medicalExaminationResponse : medicalExaminationResponses){
-           medicalExaminationResponse.setMedicalExaminationDetailsResponses(MapData.mapList(medicalExaminationDetailRepository.findMedicalExaminationDetailsByMedicalExaminationId(medicalExaminationResponse.getId()).orElseThrow(()-> new UsernameNotFoundException("Medical Examinations is not exists!")),MedicalExaminationDetailsResponse.class));
+           List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses = MapData.mapList(medicalExaminationDetailRepository.findMedicalExaminationDetailsByMedicalExaminationId(medicalExaminationResponse.getId()).orElseThrow(()-> new UsernameNotFoundException("Medical Examinations is not exists!")),MedicalExaminationDetailsResponse.class);
+           medicalExaminationResponse.setMedicalExaminationDetailsResponses(medicalExaminationDetailsResponses);
            medicalExaminationResponse.setDetailMedicineResponses(MapData.mapList(detailMedicineRepository.findDetailMedicinesByMedicalExaminationId(medicalExaminationResponse.getId()),DetailMedicineResponse.class));
        }
-        return MapData.mapList(medicalExaminationRepository.findAll(),MedicalExaminationResponse.class);
+        return MapData.mapList(medicalExaminationResponses,MedicalExaminationResponse.class);
     }
 
     @Override

@@ -33,4 +33,6 @@ public class MedicalExaminationDetails {
     @ManyToOne
     @JoinColumn(name = "medical_exam_id")
     private MedicalExamination medicalExamination;
+    @Enumerated(EnumType.STRING)
+    private StatusMedicalDetail status;
 }

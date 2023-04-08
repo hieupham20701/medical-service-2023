@@ -32,4 +32,7 @@ public class Drug {
     private Date createdDate;
     private Date updatedDate;
     private Integer unitId;
+    private Integer vienVi;
+    private Integer viHop;
+    private Integer hopThung;
 }

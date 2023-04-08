@@ -10,5 +10,6 @@ public interface MedicalExaminationDetailService {
     MedicalExaminationDetailsResponse saveMedicalExaminationDetail(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest);
     MedicalExaminationDetailsResponse getMedicalExamination(Integer id);
     List<MedicalExaminationDetailsResponse> getMedicalExaminations();
+    Boolean deleteMedicalExaminationDetail(Integer id);
     List<MedicalExaminationDetailsResponse> getMedicalExaminationDetailByMedicalExamId(Integer id);
 }

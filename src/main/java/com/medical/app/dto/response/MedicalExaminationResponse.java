@@ -32,4 +32,6 @@ public class MedicalExaminationResponse {
     private String result;
     private List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses;
     private List<DetailMedicineResponse> detailMedicineResponses;
+    private String pathological;
+    private String codeicd;
 }

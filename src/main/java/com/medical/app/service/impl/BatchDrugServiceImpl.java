@@ -7,10 +7,9 @@ import com.medical.app.dto.response.DetailBatchDrugResponse;
 import com.medical.app.mapper.MapData;
 import com.medical.app.model.entity.BatchDrug;
 import com.medical.app.model.entity.DetailBatchDrug;
-import com.medical.app.repository.AuthRepository;
-import com.medical.app.repository.BatchDrugRepository;
-import com.medical.app.repository.DetailBatchDrugRepository;
-import com.medical.app.repository.SupplierRepository;
+import com.medical.app.model.entity.Drug;
+import com.medical.app.model.enums.Unit;
+import com.medical.app.repository.*;
 import com.medical.app.service.BatchDrugService;
 import com.medical.app.service.DetailBatchDrugService;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +27,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BatchDrugServiceImpl implements BatchDrugService {
 
-    private final BatchDrugRepository drugRepository;
+    private final BatchDrugRepository batchDrugRepository;
     private final AuthRepository authRepository;
     private final DetailBatchDrugService detailBatchDrugService;
+    private final DetailBatchDrugRepository detailBatchDrugRepository;
+
     private final SupplierRepository supplierRepository;
+    private final DrugRepository drugRepository;
     @Override
     @Transactional
     public BatchDrugResponse saveBatchDrug(BatchDrugRequest batchDrugRequest) {
@@ -39,7 +41,7 @@ public class BatchDrugServiceImpl implements BatchDrugService {
         batchDrug.setCreatedDate(new Date());
         batchDrug.setUser(authRepository.findById(batchDrugRequest.getUserId()).orElseThrow(()-> new UsernameNotFoundException("User not exists!")));
         batchDrug.setSupplier(supplierRepository.findById(batchDrugRequest.getSupplierId()).orElseThrow(() -> new UsernameNotFoundException("Supplier is not exist")));
-        BatchDrug batchDrugSaved = drugRepository.save(batchDrug);
+        BatchDrug batchDrugSaved = batchDrugRepository.save(batchDrug);
         BatchDrugResponse batchDrugResponse = MapData.mapOne(batchDrugSaved,BatchDrugResponse.class);
         List<DetailBatchDrugResponse> detailBatchDrugResponses = new ArrayList<>();
         for(DetailBatchDrugRequest detailBatchDrugRequest : batchDrugRequest.getDetailBatchDrug()){
@@ -52,17 +54,32 @@ public class BatchDrugServiceImpl implements BatchDrugService {
 
     @Override
     public BatchDrugResponse getBatchDrugById(Integer id) {
-        BatchDrugResponse batchDrugResponse = MapData.mapOne(drugRepository.findById(id).orElse(null), BatchDrugResponse.class);
+        BatchDrugResponse batchDrugResponse = MapData.mapOne(batchDrugRepository.findById(id).orElse(null), BatchDrugResponse.class);
         batchDrugResponse.setDetailBatchDrugResponses(detailBatchDrugService.getDetailByBatchDrugId(id));
         return batchDrugResponse;
     }
 
     @Override
     public List<BatchDrugResponse> getAllBatchDrug() {
-        List<BatchDrugResponse> batchDrugResponses = MapData.mapList(drugRepository.findAll(), BatchDrugResponse.class);
+        List<BatchDrugResponse> batchDrugResponses = MapData.mapList(batchDrugRepository.findAll(), BatchDrugResponse.class);
         for(BatchDrugResponse batchDrugResponse : batchDrugResponses){
             batchDrugResponse.setDetailBatchDrugResponses(detailBatchDrugService.getDetailByBatchDrugId(batchDrugResponse.getId()));
         }
         return batchDrugResponses;
     }
+
+    @Override
+    public BatchDrugResponse exportDrug(Integer drugId, Integer quality, String type) {
+        Drug drug = drugRepository.findById(drugId).orElseThrow(()-> new UsernameNotFoundException("Drug not found!"));
+        List<DetailBatchDrug> detailBatchDrugs = detailBatchDrugRepository.findDetailBatchDrugsByDrugId(drugId);
+        int total_quality = 0;
+        for(DetailBatchDrug detailBatchDrug : detailBatchDrugs){
+            if(detailBatchDrug.getUnit().equals(Unit.HOP)){
+                total_quality +=detailBatchDrug.getQuality()*drug.getHopThung()*drug.getViHop()*drug.getVienVi();
+            }
+        }
+
+        return null;
+    }
+
 }

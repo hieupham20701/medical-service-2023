@@ -4,6 +4,7 @@ import com.medical.app.dto.request.MedicalExaminationDetailsRequest;
 import com.medical.app.dto.response.MedicalExaminationDetailsResponse;
 import com.medical.app.mapper.MapData;
 import com.medical.app.model.entity.MedicalExaminationDetails;
+import com.medical.app.model.enums.StatusMedicalDetail;
 import com.medical.app.repository.*;
 import com.medical.app.service.MedicalExaminationDetailService;
 import lombok.RequiredArgsConstructor;
@@ -24,12 +25,11 @@ public class MedicalExaminationDetailServiceImpl implements MedicalExaminationDe
     @Override
     public MedicalExaminationDetailsResponse saveMedicalExaminationDetail(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest) {
         MedicalExaminationDetails medicalExaminationDetails = new MedicalExaminationDetails();
-        medicalExaminationDetails.setUnitPrice(medicalExaminationDetailsRequest.getUnitPrice());
-        medicalExaminationDetails.setQuality(medicalExaminationDetailsRequest.getQuality());
         medicalExaminationDetails.setCreatedDate(new Date());
         medicalExaminationDetails.setMedicalExamination(medicalExaminationRepository.findById(medicalExaminationDetailsRequest.getMedicalExaminationId()).orElseThrow(()-> new UsernameNotFoundException("Medical Examination not exist!")));
         medicalExaminationDetails.setService(serviceRepository.findById(medicalExaminationDetailsRequest.getServiceId()).orElseThrow(()-> new UsernameNotFoundException("Service is not exists!")));
-        medicalExaminationDetails.setRoom(roomRepository.findById(medicalExaminationDetailsRequest.getRoomId()).orElseThrow(()-> new UsernameNotFoundException("Room is not exists!")));
+//        medicalExaminationDetails.setRoom(roomRepository.findById(medicalExaminationDetailsRequest.getRoomId()).orElseThrow(()-> new UsernameNotFoundException("Room is not exists!")));
+       medicalExaminationDetails.setStatus(StatusMedicalDetail.valueOf(medicalExaminationDetailsRequest.getStatus()));
         MedicalExaminationDetails medicalExaminationDetailsSaved = medicalExaminationDetailRepository.save(medicalExaminationDetails);
         return MapData.mapOne(medicalExaminationDetailsSaved, MedicalExaminationDetailsResponse.class);
     }
@@ -42,6 +42,18 @@ public class MedicalExaminationDetailServiceImpl implements MedicalExaminationDe
     @Override
     public List<MedicalExaminationDetailsResponse> getMedicalExaminations() {
         return MapData.mapList(medicalExaminationDetailRepository.findAll(),MedicalExaminationDetailsResponse.class);
+    }
+
+    @Override
+    public Boolean deleteMedicalExaminationDetail(Integer id) {
+
+        try {
+            MedicalExaminationDetails medicalExaminationDetails = medicalExaminationDetailRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("Not found"));
+            medicalExaminationDetailRepository.delete(medicalExaminationDetails);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @Override

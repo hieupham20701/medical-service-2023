@@ -41,7 +41,11 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
     public MedicalExaminationResponse saveMedicalExamination(MedicalExaminationRequest medicalExaminationRequest) {
         MedicalExamination medicalExamination = MapData.mapOne(medicalExaminationRequest, MedicalExamination.class);
         medicalExamination.setCreatedDate(new Date());
-        medicalExamination.setDoctor(authRepository.findById(medicalExaminationRequest.getDoctorId()).orElse(null));
+        if(medicalExaminationRequest.getDoctorId() != null){
+            medicalExamination.setDoctor(authRepository.findById(medicalExaminationRequest.getDoctorId()).orElse(null));
+        }else {
+            medicalExamination.setDoctor(null);
+        }
         medicalExamination.setReception(authRepository.findById(medicalExaminationRequest.getReceptionId()).orElseThrow(()-> new UsernameNotFoundException("Reception is not exists!")));
         if(patientRepository.getPatientByPhoneNumber(medicalExaminationRequest.getPatient().getPhoneNumber()).orElse(null) == null){
             medicalExamination.setPatient(MapData.mapOne(patientService.savePatientInfo(medicalExaminationRequest.getPatient()), Patient.class));
@@ -71,7 +75,6 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
 
     @Override
     public List<MedicalExaminationResponse> getAllMedicalExamination() {
-        List<MedicalExamination> medicalExaminations = medicalExaminationRepository.findAll();
         List<MedicalExaminationResponse> medicalExaminationResponses = MapData.mapList(medicalExaminationRepository.findAll(),MedicalExaminationResponse.class);
        for (MedicalExaminationResponse medicalExaminationResponse : medicalExaminationResponses){
            List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses = MapData.mapList(medicalExaminationDetailRepository.findMedicalExaminationDetailsByMedicalExaminationId(medicalExaminationResponse.getId()).orElseThrow(()-> new UsernameNotFoundException("Medical Examinations is not exists!")),MedicalExaminationDetailsResponse.class);

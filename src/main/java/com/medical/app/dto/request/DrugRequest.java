@@ -19,4 +19,7 @@ public class DrugRequest {
     private Integer categoryDrugId;
     private String note;
     private String image;
+    private Integer vienVi;
+    private Integer viHop;
+    private Integer hopThung;
 }

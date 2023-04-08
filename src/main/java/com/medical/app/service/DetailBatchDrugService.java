@@ -11,4 +11,5 @@ public interface DetailBatchDrugService {
     List<DetailBatchDrugResponse> getDetailByBatchDrugId(Integer id);
 
     DetailBatchDrugResponse updateQualityDetailBatchDrug(Integer id, Integer quality);
+
 }

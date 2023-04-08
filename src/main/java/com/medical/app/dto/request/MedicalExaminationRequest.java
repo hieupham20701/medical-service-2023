@@ -32,4 +32,6 @@ public class MedicalExaminationRequest {
     private Double temperature;
     private Double para;
     private String result;
+    private String pathological;
+    private String codeicd;
 }

@@ -13,11 +13,12 @@ import java.util.Date;
 @Getter
 public class MedicalExaminationDetailsRequest {
 
-    private Double unitPrice;
-    private int quality;
     private Date createdDate;
     private Date updatedDate;
     private Integer serviceId;
     private Integer roomId;
     private Integer medicalExaminationId;
+    private Integer id;
+    private String type;
+    private String status;
 }

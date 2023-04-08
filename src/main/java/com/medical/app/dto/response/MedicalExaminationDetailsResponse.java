@@ -16,10 +16,9 @@ import java.util.Date;
 public class MedicalExaminationDetailsResponse {
 
     private Integer id;
-    private Double unitPrice;
-    private int quality;
     private Date createdDate;
     private Date updatedDate;
     private ServiceResponse serviceResponse;
     private RoomResponse room;
+    private String status;
 }

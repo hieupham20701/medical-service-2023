@@ -41,4 +41,24 @@ public class ServiceServiceImpl implements ServiceService {
     public ServiceResponse getService(Integer id) {
         return MapData.mapOne(serviceRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("Service is not exists!")),ServiceResponse.class);
     }
+
+    @Override
+    public ServiceResponse updateService(Integer id, ServiceRequest serviceRequest) {
+        Service service = serviceRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("Not found"));
+        if(serviceRequest.getName() != null){
+            service.setName(serviceRequest.getName());
+        }
+        if(serviceRequest.getCategoryServiceId() != null){
+            service.setCategoryService(categoryServiceRepository.findById(serviceRequest.getCategoryServiceId()).orElse(null));
+        }
+        if(serviceRequest.getMedicalDepartmentId() != null){
+            service.setMedicalDepartment(medicalDepartmentRepository.findById(serviceRequest.getMedicalDepartmentId()).orElse(null));
+        }
+        if(serviceRequest.getPrice() != null){
+            service.setPrice(serviceRequest.getPrice());
+        }
+        service.setUpdatedDate(new Date());
+        Service serviceSaved = serviceRepository.save(service);
+        return MapData.mapOne(serviceSaved, ServiceResponse.class);
+    }
 }

@@ -11,5 +11,5 @@ public interface SupplierService {
     SupplierResponse getSupplierById(Integer id);
     List<SupplierResponse> getSuppliers();
     SupplierResponse saveSupplier(SupplierRequest supplierRequest);
-
+    SupplierResponse updateSupplier(Integer id, SupplierRequest supplierRequest);
 }

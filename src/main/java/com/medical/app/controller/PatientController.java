@@ -47,5 +47,9 @@ public class PatientController {
     public ResponseEntity<?> findHistoryMedicalExamination(@PathVariable Integer id){
         return ResponseEntity.ok().body(medicalExaminationService.getHistoryMedicalExaminationPatientId(id));
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updatePatient(@PathVariable Integer id, @RequestBody PatientRequest request){
+        return ResponseEntity.ok().body(patientService.updatedPatient(id, request));
+    }
 
 }

@@ -49,4 +49,30 @@ public class PatientServiceImpl implements PatientService {
     public PatientResponse getPatientById(Integer id) {
         return MapData.mapOne(patientRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("Patient not found!")), PatientResponse.class);
     }
+
+    @Override
+    public PatientResponse updatedPatient(Integer id, PatientRequest request) {
+        Patient patient = patientRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("Not found"));
+        if(request.getSex() != null){
+            patient.setSex(request.getSex());
+        }
+        if(request.getPhoneNumber()!= null){
+            patient.setPhoneNumber(request.getPhoneNumber());
+        }
+        if(request.getAddress()!= null){
+            patient.setAddress(request.getAddress());
+        }
+        if(request.getDateOfBirth() != null){
+            patient.setDateOfBirth(request.getDateOfBirth());
+        }
+        if(request.getFullName() != null){
+            patient.setFullName(request.getFullName());
+        }
+        if(request.getIdCard() != null){
+            patient.setIdCard(request.getIdCard());
+        }
+        patient.setUpdatedDate(new Date());
+        Patient patientSaved = patientRepository.save(patient);
+        return MapData.mapOne(patientSaved,PatientResponse.class);
+    }
 }

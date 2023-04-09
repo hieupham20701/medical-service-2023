@@ -47,4 +47,5 @@ public class MedicalExamination {
     private String result;
     private String pathological;
     private String codeicd;
+    private String clinicalSign;
 }

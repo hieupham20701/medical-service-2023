@@ -34,4 +34,8 @@ public class ServiceController {
             return ResponseEntity.badRequest().body(error);
         }
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateService(@PathVariable Integer id, @RequestBody ServiceRequest serviceRequest){
+        return ResponseEntity.ok().body(serviceService.updateService(id, serviceRequest));
+    }
 }

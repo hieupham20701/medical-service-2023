@@ -36,4 +36,8 @@ public class SupplierController {
     public ResponseEntity<?> getSuppliers(){
         return ResponseEntity.ok().body(supplierService.getSuppliers());
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateSupplier(@PathVariable Integer id, @RequestBody SupplierRequest supplierRequest){
+        return ResponseEntity.ok().body(supplierService.updateSupplier(id, supplierRequest));
+    }
 }

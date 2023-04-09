@@ -34,4 +34,5 @@ public class MedicalExaminationResponse {
     private List<DetailMedicineResponse> detailMedicineResponses;
     private String pathological;
     private String codeicd;
+    private String clinicalSign;
 }

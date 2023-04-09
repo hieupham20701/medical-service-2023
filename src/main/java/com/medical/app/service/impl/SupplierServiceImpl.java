@@ -1,6 +1,5 @@
 package com.medical.app.service.impl;
 
-import com.medical.app.dto.request.ServiceRequest;
 import com.medical.app.dto.request.SupplierRequest;
 import com.medical.app.dto.response.SupplierResponse;
 import com.medical.app.mapper.MapData;
@@ -38,5 +37,24 @@ public class SupplierServiceImpl implements SupplierService {
         Supplier supplier = MapData.mapOne(supplierRequest, Supplier.class);
         supplier.setCreatedDate(new Date());
         return MapData.mapOne(supplierRepository.save(supplier),SupplierResponse.class);
+    }
+
+    @Override
+    public SupplierResponse updateSupplier(Integer id, SupplierRequest supplierRequest) {
+        Supplier supplier = supplierRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("Not found"));
+        if(supplierRequest.getAddress()!= null){
+            supplier.setAddress(supplierRequest.getAddress());
+        }
+        if(supplierRequest.getDescription() != null)
+            supplier.setDescription(supplierRequest.getDescription());
+        if(supplierRequest.getEmail()!= null)
+            supplier.setEmail(supplierRequest.getEmail());
+        if(supplierRequest.getName() != null)
+            supplier.setName(supplierRequest.getName());
+        if(supplierRequest.getPhoneNumber() != null)
+            supplier.setPhoneNumber(supplierRequest.getPhoneNumber());
+        supplier.setUpdatedDate(new Date());
+        Supplier supplierSaved = supplierRepository.save(supplier);
+        return MapData.mapOne(supplierSaved,SupplierResponse.class);
     }
 }

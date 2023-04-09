@@ -11,5 +11,6 @@ public interface ServiceService {
     ServiceResponse saveService(ServiceRequest serviceRequest);
 
     ServiceResponse getService(Integer id);
+    ServiceResponse updateService(Integer id, ServiceRequest serviceRequest);
 
 }

@@ -12,6 +12,6 @@ public interface PatientService {
     PatientResponse savePatientInfo(PatientRequest request);
     List<PatientResponse> getAllPatient();
     PatientResponse getPatientById(Integer id);
-
+    PatientResponse updatedPatient(Integer id, PatientRequest request);
 
 }

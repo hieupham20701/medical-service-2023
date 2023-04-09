@@ -6,8 +6,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -38,6 +40,8 @@ public class MedicalExaminationDetailController {
     public ResponseEntity<?> getMedicalExaminations(){
         return ResponseEntity.ok().body(medicalExaminationDetailService.getMedicalExaminations());
     }
-
-//    public ResponseEntity<?> updateMedicalExamiResponseEntity
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateMedicalExaminationDetail(@PathVariable Integer id, @RequestParam String status, @RequestParam List<MultipartFile> files){
+        return ResponseEntity.ok().body(medicalExaminationDetailService.updateMedicalExaminationDetail(id,status,files));
+    }
 }

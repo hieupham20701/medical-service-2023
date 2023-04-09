@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
-
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -21,4 +21,5 @@ public class MedicalExaminationDetailsResponse {
     private ServiceResponse serviceResponse;
     private RoomResponse room;
     private String status;
+    private List<String> images;
 }

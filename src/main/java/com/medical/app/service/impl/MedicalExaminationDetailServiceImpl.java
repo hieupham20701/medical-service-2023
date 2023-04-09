@@ -1,16 +1,23 @@
 package com.medical.app.service.impl;
 
 import com.medical.app.dto.request.MedicalExaminationDetailsRequest;
+import com.medical.app.dto.response.ImageUrlResponse;
 import com.medical.app.dto.response.MedicalExaminationDetailsResponse;
+import com.medical.app.dto.response.ServiceResponse;
 import com.medical.app.mapper.MapData;
+import com.medical.app.model.entity.ImageUrl;
 import com.medical.app.model.entity.MedicalExaminationDetails;
 import com.medical.app.model.enums.StatusMedicalDetail;
 import com.medical.app.repository.*;
 import com.medical.app.service.MedicalExaminationDetailService;
+import com.medical.app.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.ManyToOne;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +29,9 @@ public class MedicalExaminationDetailServiceImpl implements MedicalExaminationDe
     private final ServiceRepository serviceRepository;
     private final MedicalExaminationRepository medicalExaminationRepository;
     private final RoomRepository roomRepository;
+    private final UserService userService;
+    private final ImageUrlRepository imageUrlRepository;
+
     @Override
     public MedicalExaminationDetailsResponse saveMedicalExaminationDetail(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest) {
         MedicalExaminationDetails medicalExaminationDetails = new MedicalExaminationDetails();
@@ -61,28 +71,26 @@ public class MedicalExaminationDetailServiceImpl implements MedicalExaminationDe
         return MapData.mapList(medicalExaminationDetailRepository.findMedicalExaminationDetailsByMedicalExaminationId(id).orElseThrow(()-> new UsernameNotFoundException("Medical Examinations is not exists!")),MedicalExaminationDetailsResponse.class);
     }
 
-//    @Override
-//    public MedicalExaminationDetailsResponse modifyMedicalExamDetail(Integer id, MedicalExaminationDetailsRequest medicalExaminationDetailsRequest) {
-//        MedicalExaminationDetails medicalExaminationDetails = medicalExaminationDetailRepository.findById(id).orElseThrow();
-//        if(medicalExaminationDetailsRequest.getBuy_medicine() != null){
-//            medicalExaminationDetails.setBuyMedicine(medicalExaminationDetailsRequest.getBuy_medicine());
-//        }
-//        if(medicalExaminationDetailsRequest.getDate_medical_examination() != null){
-//            medicalExaminationDetails.setDateMedicalExamination(medicalExaminationDetailsRequest.getDate_medical_examination());
-//        }
-//        if(medicalExaminationDetailsRequest.getDate_recheck_up() != null){
-//            medicalExaminationDetails.setDateRecheckUp(medicalExaminationDetailsRequest.getDate_recheck_up());
-//        }
-//        if(medicalExaminationDetailsRequest.getDiagnose() != null){
-//            medicalExaminationDetails.setBuyMedicine(medicalExaminationDetailsRequest.getBuy_medicine());
-//        }
-//        if(medicalExaminationDetailsRequest.getTotal_price() != null){
-//            medicalExaminationDetails.setTotalPrice(medicalExaminationDetailsRequest.getTotal_price());
-//        }
-//        if(medicalExaminationDetailsRequest.getStatus() != null){
-//            medicalExaminationDetails.setStatus(StatusMedicalDetail.valueOf(medicalExaminationDetailsRequest.getStatus()));
-//        }
-//        medicalExaminationDetails.setUpdatedDate(new Date());
-//        return MapData.mapOne(medicalExaminationDetailRepository.save(medicalExaminationDetails), MedicalExaminationDetailsResponse.class);
-//    }
+    @Override
+    public MedicalExaminationDetailsResponse updateMedicalExaminationDetail(Integer id, String status, List<MultipartFile> image) {
+        MedicalExaminationDetails medicalExaminationDetails = medicalExaminationDetailRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("Not found"));
+        medicalExaminationDetails.setStatus(StatusMedicalDetail.valueOf(status));
+        List<String> images = new ArrayList<>();
+        for(MultipartFile file : image){
+            String url = userService.uploadAvatar(file);
+            ImageUrl imageUrl = new ImageUrl();
+            imageUrl.setUrl(url);
+            imageUrl.setMedicalExaminationDetails(medicalExaminationDetails);
+            imageUrl.setCreatedDate(new Date());
+            imageUrlRepository.save(imageUrl);
+
+        }
+        MedicalExaminationDetails medicalExaminationDetailSaved = medicalExaminationDetailRepository.save(medicalExaminationDetails);
+        MedicalExaminationDetailsResponse medicalExaminationDetailsResponse = MapData.mapOne(medicalExaminationDetailSaved, MedicalExaminationDetailsResponse.class);
+        medicalExaminationDetailsResponse.setServiceResponse(MapData.mapOne(medicalExaminationDetailSaved.getService(), ServiceResponse.class));
+        imageUrlRepository.findByMedicalExaminationDetailsId(id).forEach(imageUrl -> images.add(imageUrl.getUrl()));
+        medicalExaminationDetailsResponse.setImages(images);
+        return medicalExaminationDetailsResponse;
+    }
+
 }

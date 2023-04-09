@@ -35,4 +35,5 @@ public class MedicalExaminationDetails {
     private MedicalExamination medicalExamination;
     @Enumerated(EnumType.STRING)
     private StatusMedicalDetail status;
+    private String image;
 }

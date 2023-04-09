@@ -21,4 +21,5 @@ public class MedicalExaminationDetailsRequest {
     private Integer id;
     private String type;
     private String status;
+    private String image;
 }

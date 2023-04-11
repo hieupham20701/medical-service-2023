@@ -27,10 +27,10 @@ public class DetailBatchDrugServiceImpl implements DetailBatchDrugService {
     @Override
     public DetailBatchDrugResponse saveDetailBatchDrug(DetailBatchDrugRequest detailBatchDrugRequest) {
         DetailBatchDrug detailBatchDrug = MapData.mapOne(detailBatchDrugRequest,DetailBatchDrug.class);
-        detailBatchDrug.setManufactureDate(detailBatchDrugRequest.getManufacture_date());
+        detailBatchDrug.setManufactureDate(detailBatchDrugRequest.getManufactureDate());
         detailBatchDrug.setExpiredDate(detailBatchDrug.getExpiredDate());
-        detailBatchDrug.setBatchDrug(batchDrugRepository.findById(detailBatchDrugRequest.getBatch_drug_id()).orElseThrow(()-> new UsernameNotFoundException("Batch Drug is not exist!")));
-        detailBatchDrug.setDrug(drugRepository.findById(detailBatchDrugRequest.getDrug_id()).orElseThrow(() -> new UsernameNotFoundException("Drug is not exists!")));
+        detailBatchDrug.setBatchDrug(batchDrugRepository.findById(detailBatchDrugRequest.getBatchDrugId()).orElseThrow(()-> new UsernameNotFoundException("Batch Drug is not exist!")));
+        detailBatchDrug.setDrug(drugRepository.findById(detailBatchDrugRequest.getDrugId()).orElseThrow(() -> new UsernameNotFoundException("Drug is not exists!")));
 
         return MapData.mapOne(detailBatchDrugRepository.save(detailBatchDrug), DetailBatchDrugResponse.class);
     }

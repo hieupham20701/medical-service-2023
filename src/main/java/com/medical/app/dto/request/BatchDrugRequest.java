@@ -24,4 +24,8 @@ public class BatchDrugRequest {
     private Integer userId;
     private Integer supplierId;
     private List<DetailBatchDrugRequest> detailBatchDrug;
+    private Double totalPrice;
+    private Double settlement;
+    private Double paidPrice;
+    private Double debt;
 }

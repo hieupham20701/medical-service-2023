@@ -25,5 +25,9 @@ public class BatchDrugResponse {
     private Date updatedDate;
     private SupplierResponse supplierResponse;
     private UserResponse user;
+    private Double totalPrice;
+    private Double settlement;
+    private Double paidPrice;
+    private Double debt;
     private List<DetailBatchDrugResponse> detailBatchDrugResponses;
 }

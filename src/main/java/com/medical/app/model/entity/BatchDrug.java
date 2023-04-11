@@ -29,5 +29,8 @@ public class BatchDrug {
     @ManyToOne
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
-
+    private Double totalPrice;
+    private Double settlement;
+    private Double paidPrice;
+    private Double debt;
 }

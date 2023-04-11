@@ -4,10 +4,12 @@ import com.medical.app.dto.request.BatchDrugRequest;
 import com.medical.app.dto.request.DetailBatchDrugRequest;
 import com.medical.app.dto.response.BatchDrugResponse;
 import com.medical.app.dto.response.DetailBatchDrugResponse;
+import com.medical.app.dto.response.SupplierResponse;
 import com.medical.app.mapper.MapData;
 import com.medical.app.model.entity.BatchDrug;
 import com.medical.app.model.entity.DetailBatchDrug;
 import com.medical.app.model.entity.Drug;
+import com.medical.app.model.entity.Supplier;
 import com.medical.app.model.enums.Unit;
 import com.medical.app.repository.*;
 import com.medical.app.service.BatchDrugService;
@@ -48,7 +50,8 @@ public class BatchDrugServiceImpl implements BatchDrugService {
 
         batchDrug.setCreatedDate(new Date());
         batchDrug.setUser(authRepository.findById(batchDrugRequest.getUserId()).orElseThrow(()-> new UsernameNotFoundException("User not exists!")));
-        batchDrug.setSupplier(supplierRepository.findById(batchDrugRequest.getSupplierId()).orElseThrow(() -> new UsernameNotFoundException("Supplier is not exist")));
+        Supplier supplier = supplierRepository.findById(batchDrugRequest.getSupplierId()).orElseThrow(() -> new UsernameNotFoundException("Supplier is not exist"));
+        batchDrug.setSupplier(supplier);
         BatchDrug batchDrugSaved = batchDrugRepository.save(batchDrug);
         BatchDrugResponse batchDrugResponse = MapData.mapOne(batchDrugSaved,BatchDrugResponse.class);
         List<DetailBatchDrugResponse> detailBatchDrugResponses = new ArrayList<>();
@@ -56,6 +59,7 @@ public class BatchDrugServiceImpl implements BatchDrugService {
             detailBatchDrugRequest.setBatchDrugId(batchDrugSaved.getId());
             detailBatchDrugResponses.add(detailBatchDrugService.saveDetailBatchDrug(detailBatchDrugRequest));
         }
+        batchDrugResponse.setSupplierResponse(MapData.mapOne(supplier, SupplierResponse.class));
         batchDrugResponse.setDetailBatchDrugResponses(detailBatchDrugResponses);
         return batchDrugResponse;
     }

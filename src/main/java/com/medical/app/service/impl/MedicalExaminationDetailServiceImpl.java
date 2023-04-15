@@ -1,7 +1,6 @@
 package com.medical.app.service.impl;
 
 import com.medical.app.dto.request.MedicalExaminationDetailsRequest;
-import com.medical.app.dto.response.ImageUrlResponse;
 import com.medical.app.dto.response.MedicalExaminationDetailsResponse;
 import com.medical.app.dto.response.ServiceResponse;
 import com.medical.app.mapper.MapData;
@@ -16,7 +15,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.ManyToOne;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -87,10 +85,18 @@ public class MedicalExaminationDetailServiceImpl implements MedicalExaminationDe
         }
         MedicalExaminationDetails medicalExaminationDetailSaved = medicalExaminationDetailRepository.save(medicalExaminationDetails);
         MedicalExaminationDetailsResponse medicalExaminationDetailsResponse = MapData.mapOne(medicalExaminationDetailSaved, MedicalExaminationDetailsResponse.class);
-        medicalExaminationDetailsResponse.setServiceResponse(MapData.mapOne(medicalExaminationDetailSaved.getService(), ServiceResponse.class));
+        medicalExaminationDetailsResponse.setService(MapData.mapOne(medicalExaminationDetailSaved.getService(), ServiceResponse.class));
         imageUrlRepository.findByMedicalExaminationDetailsId(id).forEach(imageUrl -> images.add(imageUrl.getUrl()));
         medicalExaminationDetailsResponse.setImages(images);
         return medicalExaminationDetailsResponse;
+    }
+
+    @Override
+    public List<MedicalExaminationDetailsResponse> getDetailExaminationByDateAndRoom(Date date, Integer roomId) {
+        List<MedicalExaminationDetails> medicalExaminationDetails = medicalExaminationDetailRepository.findMedicalExaminationDetailsByCreatedDateAndRoomId(date,roomId);
+        List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses = MapData.mapList(medicalExaminationDetails,MedicalExaminationDetailsResponse.class);
+
+        return medicalExaminationDetailsResponses;
     }
 
 }

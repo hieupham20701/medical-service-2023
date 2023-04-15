@@ -18,6 +18,5 @@ public class MedicineResponse {
     private String description;
     private Date createdDate;
     private Date updatedDate;
-    private MedicalExaminationResponse medicalExaminationResponse;
     private List<DetailMedicineResponse> detailMedicineResponses;
 }

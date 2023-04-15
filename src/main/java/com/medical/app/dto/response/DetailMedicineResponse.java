@@ -14,10 +14,9 @@ import java.util.Date;
 public class DetailMedicineResponse {
     private Integer id;
     private Integer quality;
-    private String amount;
+    private String designate;
     private Double totalPrice;
     private DrugResponse drug;
-    private String unit;
     private Date createdDate;
     private Date updatedDate;
 

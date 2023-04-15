@@ -18,11 +18,10 @@ import java.util.Date;
 public class DetailMedicineRequest {
 
     private Integer quality;
-    private String amount;
+    private String designate;
     private Double totalPrice;
     private Integer drugId;
     private Integer medicalExaminationId;
-    private String unit;
     private Date createdDate;
     private Date updatedDate;
 

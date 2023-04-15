@@ -72,4 +72,8 @@ public class MedicalExaminationController {
     public ResponseEntity<?> saveMedicineDetail(@PathVariable Integer id, @RequestBody List<DetailMedicineRequest> detailMedicineRequests){
         return ResponseEntity.ok().body(medicalExaminationService.saveMedicineDetail(id,detailMedicineRequests));
     }
+    @PostMapping("/medicine/date")
+    public ResponseEntity<?> getMedicineByDate(@RequestParam @DateTimeFormat(pattern = "dd/MM/yyyy") Date date){
+        return ResponseEntity.ok().body(medicalExaminationService.getMedicineByDate(date));
+    }
 }

@@ -4,10 +4,12 @@ import com.medical.app.dto.request.MedicalExaminationDetailsRequest;
 import com.medical.app.service.MedicalExaminationDetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,4 +46,9 @@ public class MedicalExaminationDetailController {
     public ResponseEntity<?> updateMedicalExaminationDetail(@PathVariable Integer id, @RequestParam String status, @RequestParam List<MultipartFile> files){
         return ResponseEntity.ok().body(medicalExaminationDetailService.updateMedicalExaminationDetail(id,status,files));
     }
+    @PostMapping("/service")
+    public ResponseEntity<?> getMedicalMedicalExaminationDetailByDate(@RequestParam @DateTimeFormat(pattern="dd/MM/yyyy") Date date, @RequestParam Integer roomId){
+        return ResponseEntity.ok().body(medicalExaminationDetailService.getDetailExaminationByDateAndRoom(date,roomId));
+    }
+
 }

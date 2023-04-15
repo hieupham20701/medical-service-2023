@@ -3,10 +3,7 @@ package com.medical.app.service.impl;
 import com.medical.app.dto.request.DetailMedicineRequest;
 import com.medical.app.dto.request.MedicalExaminationDetailsRequest;
 import com.medical.app.dto.request.MedicalExaminationRequest;
-import com.medical.app.dto.response.DetailMedicineResponse;
-import com.medical.app.dto.response.MedicalExaminationDetailsResponse;
-import com.medical.app.dto.response.MedicalExaminationResponse;
-import com.medical.app.dto.response.ServiceResponse;
+import com.medical.app.dto.response.*;
 import com.medical.app.mapper.MapData;
 import com.medical.app.model.entity.*;
 import com.medical.app.model.enums.StatusMedicalDetail;
@@ -54,6 +51,10 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
         }
 
         medicalExamination.setStatus(StatusMedicalDetail.valueOf(medicalExaminationRequest.getStatus()));
+        for(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest : medicalExaminationRequest.getMedicalExaminationDetailsRequests()){
+            medicalExaminationDetailsRequest.setMedicalExaminationId(medicalExamination.getId());
+            medicalExaminationDetailService.saveMedicalExaminationDetail(medicalExaminationDetailsRequest);
+        }
         return MapData.mapOne(medicalExaminationRepository.save(medicalExamination), MedicalExaminationResponse.class);
     }
 
@@ -64,7 +65,7 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
         List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses= new ArrayList<>();
         for(MedicalExaminationDetails medicalExaminationDetails1 : medicalExaminationDetails){
             MedicalExaminationDetailsResponse medicalExaminationDetailsResponse = MapData.mapOne(medicalExaminationDetails1,MedicalExaminationDetailsResponse.class);
-            medicalExaminationDetailsResponse.setServiceResponse(MapData.mapOne(medicalExaminationDetails1.getService(),ServiceResponse.class));
+            medicalExaminationDetailsResponse.setService(MapData.mapOne(medicalExaminationDetails1.getService(),ServiceResponse.class));
             medicalExaminationDetailsResponses.add(medicalExaminationDetailsResponse);
         }
         medicalExaminationResponse.setMedicalExaminationDetailsResponses(medicalExaminationDetailsResponses);
@@ -182,5 +183,23 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
         MedicalExaminationResponse medicalExaminationResponse = MapData.mapOne(medicalExamination,MedicalExaminationResponse.class);
         medicalExaminationResponse.setDetailMedicineResponses(detailMedicineResponses);
         return medicalExaminationResponse;
+    }
+
+    @Override
+    public List<MedicineResponse> getMedicineByDate(Date date) {
+        List<MedicalExamination> medicalExaminations = medicalExaminationRepository.findMedicalExaminationsByCreatedDate(date);
+        List<MedicineResponse> medicineResponses = new ArrayList<>();
+        List<DetailMedicineResponse> detailMedicineResponses = new ArrayList<>();
+        for (MedicalExamination medicalExamination: medicalExaminations){
+            detailMedicineResponses.addAll(MapData.mapList(detailMedicineRepository.findDetailMedicinesByMedicalExaminationId(medicalExamination.getId()),DetailMedicineResponse.class));
+
+        }
+        double totalPrice = detailMedicineResponses.stream().mapToDouble(DetailMedicineResponse::getTotalPrice).sum();
+        for(int i=0; i < medicalExaminations.size(); i++){
+            medicineResponses.get(i).setDetailMedicineResponses(detailMedicineResponses);
+            medicineResponses.get(i).setCreatedDate(medicalExaminations.get(i).getCreatedDate());
+            medicineResponses.get(i).setTotalPrice(totalPrice);
+        }
+        return null;
     }
 }

@@ -19,7 +19,7 @@ public class DetailMedicine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer quality;
-    private String amount;
+    private String designate;
     private Double totalPrice;
     @ManyToOne
     @JoinColumn(name = "drug_id")
@@ -27,7 +27,6 @@ public class DetailMedicine {
     @ManyToOne
     @JoinColumn(name = "medical_examination_id")
     private MedicalExamination medicalExamination;
-    private String unit;
     private Date createdDate;
     private Date updatedDate;
     private String description;

@@ -18,7 +18,7 @@ public class MedicalExaminationDetailsResponse {
     private Integer id;
     private Date createdDate;
     private Date updatedDate;
-    private ServiceResponse serviceResponse;
+    private ServiceResponse service;
     private RoomResponse room;
     private String status;
     private List<String> images;

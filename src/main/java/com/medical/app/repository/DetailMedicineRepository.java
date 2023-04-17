@@ -8,5 +8,5 @@ import java.util.List;
 public interface DetailMedicineRepository extends JpaRepository<DetailMedicine, Integer> {
 
     List<DetailMedicine> findDetailMedicinesByMedicalExaminationId(Integer id);
-
+    DetailMedicine findDetailMedicineByMedicalExaminationIdAndDrugId(Integer medicalId,Integer drugId );
 }

@@ -121,13 +121,12 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
             medicalExamination.setPara(medicalExaminationRequest.getPara());
 
         List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses = new ArrayList<>();
-        List<DetailMedicineResponse> detailMedicineResponses = MapData.mapList(detailMedicineRepository.findDetailMedicinesByMedicalExaminationId(id),DetailMedicineResponse.class);
 
 
         if(medicalExaminationRequest.getMedicalExaminationDetailsRequests() != null){
             for(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest : medicalExaminationRequest.getMedicalExaminationDetailsRequests()){
                if(medicalExaminationDetailsRequest.getType().equals("delete")) {
-//                   medicalExaminationDetailService.deleteMedicalExaminationDetail(id, medicalExaminationDetailsRequest.getServiceId());
+                   medicalExaminationDetailService.deleteMedicalExaminationDetail(id, medicalExaminationDetailsRequest.getServiceId());
                }else if(medicalExaminationDetailsRequest.getType().equals("add")){
                     medicalExaminationDetailsRequest.setMedicalExaminationId(medicalExamination.getId());
                     medicalExaminationDetailService.saveMedicalExaminationDetail(medicalExaminationDetailsRequest);
@@ -143,10 +142,20 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
         if(medicalExaminationRequest.getDetailMedicineRequests() != null){
             for(DetailMedicineRequest detailMedicineRequest : medicalExaminationRequest.getDetailMedicineRequests()){
                 if(detailMedicineRequest.getType().equals("delete")){
-//                    detailMedicineRepository.de
+                    detailMedicineRepository.delete(detailMedicineRepository.findDetailMedicineByMedicalExaminationIdAndDrugId(id,detailMedicineRequest.getDrugId()));
+                }else if (detailMedicineRequest.getType().equals("add")){
+                    DetailMedicine detailMedicine = MapData.mapOne(detailMedicineRequest, DetailMedicine.class);
+                    detailMedicine.setMedicalExamination(medicalExamination);
+                    detailMedicine.setCreatedDate(new Date());
+                    Drug drug = drugRepository.findById(detailMedicineRequest.getDrugId()).orElseThrow(()-> new UsernameNotFoundException("Drug not found!"));
+                    detailMedicine.setDrug(drug);
+                    detailMedicine.setTotalPrice(drug.getPrice()*detailMedicine.getQuality());
+                    detailMedicineRepository.save(detailMedicine);
                 }
             }
         }
+        List<DetailMedicineResponse> detailMedicineResponses = MapData.mapList(detailMedicineRepository.findDetailMedicinesByMedicalExaminationId(id),DetailMedicineResponse.class);
+
         medicalExaminationResponse.setDetailMedicineResponses(detailMedicineResponses);
         return medicalExaminationResponse;
     }

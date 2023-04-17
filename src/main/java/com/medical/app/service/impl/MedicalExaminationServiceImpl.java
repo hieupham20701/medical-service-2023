@@ -51,11 +51,14 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
         }
 
         medicalExamination.setStatus(StatusMedicalDetail.valueOf(medicalExaminationRequest.getStatus()));
-        for(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest : medicalExaminationRequest.getMedicalExaminationDetailsRequests()){
-            medicalExaminationDetailsRequest.setMedicalExaminationId(medicalExamination.getId());
-            medicalExaminationDetailService.saveMedicalExaminationDetail(medicalExaminationDetailsRequest);
+       MedicalExaminationResponse medicalExaminationResponse = MapData.mapOne(medicalExaminationRepository.save(medicalExamination), MedicalExaminationResponse.class);
+       List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses = new ArrayList<>();
+       for(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest : medicalExaminationRequest.getMedicalExaminationDetailsRequests()){
+           medicalExaminationDetailsRequest.setMedicalExaminationId(medicalExamination.getId());
+           medicalExaminationDetailsResponses.add(MapData.mapOne(medicalExaminationDetailService.saveMedicalExaminationDetail(medicalExaminationDetailsRequest),MedicalExaminationDetailsResponse.class));
         }
-        return MapData.mapOne(medicalExaminationRepository.save(medicalExamination), MedicalExaminationResponse.class);
+        medicalExaminationResponse.setMedicalExaminationDetailsResponses(medicalExaminationDetailsResponses);
+        return medicalExaminationResponse;
     }
 
     @Override
@@ -121,15 +124,15 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
         List<DetailMedicineResponse> detailMedicineResponses = MapData.mapList(detailMedicineRepository.findDetailMedicinesByMedicalExaminationId(id),DetailMedicineResponse.class);
 
 
-
         if(medicalExaminationRequest.getMedicalExaminationDetailsRequests() != null){
             for(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest : medicalExaminationRequest.getMedicalExaminationDetailsRequests()){
-               if(medicalExaminationDetailsRequest.getType().equals("add")){
-                   medicalExaminationDetailsRequest.setMedicalExaminationId(medicalExamination.getId());
-                   medicalExaminationDetailService.saveMedicalExaminationDetail(medicalExaminationDetailsRequest);
-               }else if(medicalExaminationDetailsRequest.getType().equals("delete")) {
-                   medicalExaminationDetailService.deleteMedicalExaminationDetail(medicalExaminationDetailsRequest.getId());
+               if(medicalExaminationDetailsRequest.getType().equals("delete")) {
+                   medicalExaminationDetailService.deleteMedicalExaminationDetail(id, medicalExaminationDetailsRequest.getServiceId());
+               }else if(medicalExaminationDetailsRequest.getType().equals("add")){
+                    medicalExaminationDetailsRequest.setMedicalExaminationId(medicalExamination.getId());
+                    medicalExaminationDetailService.saveMedicalExaminationDetail(medicalExaminationDetailsRequest);
                }
+
             }
         }
         medicalExaminationDetailsResponses.addAll(MapData.mapList(medicalExaminationDetailRepository.findMedicalExaminationDetailsByMedicalExaminationId(id).orElseThrow(()-> new UsernameNotFoundException("Medical Examinations is not exists!")),
@@ -138,8 +141,11 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
         MedicalExaminationResponse medicalExaminationResponse = MapData.mapOne(medicalExaminationRepository.save(medicalExamination), MedicalExaminationResponse.class);
         medicalExaminationResponse.setMedicalExaminationDetailsResponses(medicalExaminationDetailsResponses);
         if(medicalExaminationRequest.getDetailMedicineRequests() != null){
-            MedicalExaminationResponse medicalExaminationMedicineDetail = saveMedicineDetail(medicalExamination.getId(),medicalExaminationRequest.getDetailMedicineRequests());
-            detailMedicineResponses.addAll(medicalExaminationMedicineDetail.getDetailMedicineResponses());
+            for(DetailMedicineRequest detailMedicineRequest : medicalExaminationRequest.getDetailMedicineRequests()){
+                if(detailMedicineRequest.getType().equals("delete")){
+//                    detailMedicineRepository.de
+                }
+            }
         }
         medicalExaminationResponse.setDetailMedicineResponses(detailMedicineResponses);
         return medicalExaminationResponse;
@@ -191,15 +197,16 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
         List<MedicineResponse> medicineResponses = new ArrayList<>();
         List<DetailMedicineResponse> detailMedicineResponses = new ArrayList<>();
         for (MedicalExamination medicalExamination: medicalExaminations){
+            MedicineResponse medicineResponse = new MedicineResponse();
             detailMedicineResponses.addAll(MapData.mapList(detailMedicineRepository.findDetailMedicinesByMedicalExaminationId(medicalExamination.getId()),DetailMedicineResponse.class));
+            medicineResponse.setDetailMedicineResponses(detailMedicineResponses);
+            double totalPrice = detailMedicineResponses.stream().mapToDouble(detailMedicineResponse -> detailMedicineResponse.getTotalPrice() * detailMedicineResponse.getQuality()).sum();
+            medicineResponse.setTotalPrice(totalPrice);
+            medicineResponse.setCreatedDate(medicalExamination.getCreatedDate());
+            medicineResponse.setId(medicalExamination.getId());
+            medicineResponses.add(medicineResponse);
+        }
 
-        }
-        double totalPrice = detailMedicineResponses.stream().mapToDouble(DetailMedicineResponse::getTotalPrice).sum();
-        for(int i=0; i < medicalExaminations.size(); i++){
-            medicineResponses.get(i).setDetailMedicineResponses(detailMedicineResponses);
-            medicineResponses.get(i).setCreatedDate(medicalExaminations.get(i).getCreatedDate());
-            medicineResponses.get(i).setTotalPrice(totalPrice);
-        }
-        return null;
+        return medicineResponses;
     }
 }

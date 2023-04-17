@@ -12,5 +12,6 @@ import java.util.Optional;
 @Repository
 public interface MedicalExaminationDetailRepository extends JpaRepository<MedicalExaminationDetails,Integer> {
     Optional<List<MedicalExaminationDetails>> findMedicalExaminationDetailsByMedicalExaminationId(Integer id);
+    MedicalExaminationDetails findMedicalExaminationDetailsByMedicalExaminationIdAndServiceId(Integer medicalId, Integer serviceId);
     List<MedicalExaminationDetails> findMedicalExaminationDetailsByCreatedDateAndRoomId(Date date, Integer roomId);
 }

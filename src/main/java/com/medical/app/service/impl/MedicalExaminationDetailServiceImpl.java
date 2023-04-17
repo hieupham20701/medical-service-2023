@@ -53,10 +53,10 @@ public class MedicalExaminationDetailServiceImpl implements MedicalExaminationDe
     }
 
     @Override
-    public Boolean deleteMedicalExaminationDetail(Integer id) {
+    public Boolean deleteMedicalExaminationDetail(Integer medicalId, Integer serviceId) {
 
         try {
-            MedicalExaminationDetails medicalExaminationDetails = medicalExaminationDetailRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("Not found"));
+            MedicalExaminationDetails medicalExaminationDetails = medicalExaminationDetailRepository.findMedicalExaminationDetailsByMedicalExaminationIdAndServiceId(medicalId,serviceId);
             medicalExaminationDetailRepository.delete(medicalExaminationDetails);
             return true;
         }catch (Exception e){

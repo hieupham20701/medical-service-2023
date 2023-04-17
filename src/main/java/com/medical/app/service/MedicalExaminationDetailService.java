@@ -12,7 +12,7 @@ public interface MedicalExaminationDetailService {
     MedicalExaminationDetailsResponse saveMedicalExaminationDetail(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest);
     MedicalExaminationDetailsResponse getMedicalExamination(Integer id);
     List<MedicalExaminationDetailsResponse> getMedicalExaminations();
-    Boolean deleteMedicalExaminationDetail(Integer id);
+    Boolean deleteMedicalExaminationDetail(Integer medicalExaminationId, Integer serviceId);
     List<MedicalExaminationDetailsResponse> getMedicalExaminationDetailByMedicalExamId(Integer id);
     MedicalExaminationDetailsResponse updateMedicalExaminationDetail(Integer id, String status, List<MultipartFile> image);
     List<MedicalExaminationDetailsResponse> getDetailExaminationByDateAndRoom(Date date, Integer roomId);

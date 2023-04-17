@@ -24,5 +24,6 @@ public class DetailMedicineRequest {
     private Integer medicalExaminationId;
     private Date createdDate;
     private Date updatedDate;
+    private String type;
 
 }

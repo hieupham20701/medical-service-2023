@@ -127,7 +127,7 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
         if(medicalExaminationRequest.getMedicalExaminationDetailsRequests() != null){
             for(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest : medicalExaminationRequest.getMedicalExaminationDetailsRequests()){
                if(medicalExaminationDetailsRequest.getType().equals("delete")) {
-                   medicalExaminationDetailService.deleteMedicalExaminationDetail(id, medicalExaminationDetailsRequest.getServiceId());
+//                   medicalExaminationDetailService.deleteMedicalExaminationDetail(id, medicalExaminationDetailsRequest.getServiceId());
                }else if(medicalExaminationDetailsRequest.getType().equals("add")){
                     medicalExaminationDetailsRequest.setMedicalExaminationId(medicalExamination.getId());
                     medicalExaminationDetailService.saveMedicalExaminationDetail(medicalExaminationDetailsRequest);

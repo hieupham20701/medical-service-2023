@@ -61,4 +61,11 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public List<UserResponse> getUsersByDepartment(Integer departmentId, String role) {
+        List<User> users = authRepository.findUsersByRoomMedicalDepartmentIdAndRole(departmentId,UserRole.valueOf(role));
+        List<UserResponse> userResponses = MapData.mapList(users,UserResponse.class);
+        return userResponses;
+    }
 }

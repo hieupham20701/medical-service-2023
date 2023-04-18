@@ -149,7 +149,7 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
                     detailMedicine.setCreatedDate(new Date());
                     Drug drug = drugRepository.findById(detailMedicineRequest.getDrugId()).orElseThrow(()-> new UsernameNotFoundException("Drug not found!"));
                     detailMedicine.setDrug(drug);
-                    detailMedicine.setTotalPrice(drug.getPrice()*detailMedicine.getQuality());
+                    detailMedicine.setTotalPrice(drug.getPrice()*detailMedicine.getQuantity());
                     detailMedicineRepository.save(detailMedicine);
                 }
             }
@@ -192,7 +192,7 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
             detailMedicine.setCreatedDate(new Date());
             Drug drug = drugRepository.findById(detailMedicineRequest.getDrugId()).orElseThrow(()-> new UsernameNotFoundException("Drug not found!"));
             detailMedicine.setDrug(drug);
-            detailMedicine.setTotalPrice(drug.getPrice()*detailMedicine.getQuality());
+            detailMedicine.setTotalPrice(drug.getPrice()*detailMedicine.getQuantity());
             detailMedicineResponses.add(MapData.mapOne(detailMedicineRepository.save(detailMedicine), DetailMedicineResponse.class));
         }
         MedicalExaminationResponse medicalExaminationResponse = MapData.mapOne(medicalExamination,MedicalExaminationResponse.class);
@@ -209,7 +209,7 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
             MedicineResponse medicineResponse = new MedicineResponse();
             detailMedicineResponses.addAll(MapData.mapList(detailMedicineRepository.findDetailMedicinesByMedicalExaminationId(medicalExamination.getId()),DetailMedicineResponse.class));
             medicineResponse.setDetailMedicineResponses(detailMedicineResponses);
-            double totalPrice = detailMedicineResponses.stream().mapToDouble(detailMedicineResponse -> detailMedicineResponse.getTotalPrice() * detailMedicineResponse.getQuality()).sum();
+            double totalPrice = detailMedicineResponses.stream().mapToDouble(detailMedicineResponse -> detailMedicineResponse.getTotalPrice() * detailMedicineResponse.getQuantity()).sum();
             medicineResponse.setTotalPrice(totalPrice);
             medicineResponse.setCreatedDate(medicalExamination.getCreatedDate());
             medicineResponse.setId(medicalExamination.getId());

@@ -18,4 +18,5 @@ public interface MedicalAppointLetterService {
     MedicalAppointmentLetterResponse updateMedicalAppointmentLetter(Integer id, MedicalAppointmentLetterRequest medicalAppointmentLetterRequest);
 
     List<MedicalAppointmentLetterResponse> findLetterByParam(String patientName, String phoneNumber);
+    List<MedicalAppointmentLetterResponse> findLetterByDate(Date date);
 }

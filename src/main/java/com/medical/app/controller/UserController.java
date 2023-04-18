@@ -40,4 +40,9 @@ public class UserController {
 //    public ResponseEntity<?> saveUser(@RequestBody UserRequest userRequest){
 //
 //    }
+
+    @GetMapping(value = "/department")
+    public ResponseEntity<?> findUserByDepartment(@RequestParam Integer departmentId,@RequestParam String role){
+        return ResponseEntity.ok().body(userService.getUsersByDepartment(departmentId,role));
+    }
 }

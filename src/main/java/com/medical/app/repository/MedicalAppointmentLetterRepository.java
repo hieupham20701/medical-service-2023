@@ -15,4 +15,5 @@ public interface MedicalAppointmentLetterRepository extends JpaRepository<Medica
     List<MedicalAppointmentLetter> findMedicalAppointmentLettersByDateBetween(Date from, Date to);
 
     List<MedicalAppointmentLetter> findMedicalAppointmentLetterByPatientFullNameOrPatientPhoneNumber(String patientName, String phoneNumber);
+    List<MedicalAppointmentLetter> findMedicalAppointmentLetterByDate(Date date);
 }

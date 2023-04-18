@@ -11,4 +11,5 @@ public interface UserService {
     List<UserResponse> getUserByRole(String role);
     UserResponse getUserById(Integer id);
     String uploadAvatar(MultipartFile file);
+    List<UserResponse> getUsersByDepartment(Integer departmentId, String role);
 }

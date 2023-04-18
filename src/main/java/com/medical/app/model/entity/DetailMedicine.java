@@ -18,7 +18,8 @@ public class DetailMedicine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer quality;
+    @Column(name = "quality")
+    private Integer quantity;
     private String designate;
     private Double totalPrice;
     @ManyToOne

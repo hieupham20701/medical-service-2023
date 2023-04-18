@@ -17,7 +17,7 @@ import java.util.Date;
 @Getter
 public class DetailMedicineRequest {
 
-    private Integer quality;
+    private Integer quantity;
     private String designate;
     private Double totalPrice;
     private Integer drugId;

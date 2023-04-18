@@ -110,6 +110,14 @@ public class MedicalAppointLetterServiceImpl implements MedicalAppointLetterServ
         return MapData.mapList(medicalAppointmentLetterRepository.findMedicalAppointmentLetterByPatientFullNameOrPatientPhoneNumber(patientName,phoneNumber),MedicalAppointmentLetterResponse.class);
     }
 
+    @Override
+    public List<MedicalAppointmentLetterResponse> findLetterByDate(Date date) {
+        List<MedicalAppointmentLetter> medicalAppointmentLetters = medicalAppointmentLetterRepository.findMedicalAppointmentLetterByDate(date);
+        List<MedicalAppointmentLetterResponse> medicalAppointmentLetterResponses = MapData.mapList(medicalAppointmentLetters,MedicalAppointmentLetterResponse.class);
+
+        return medicalAppointmentLetterResponses;
+    }
+
 
     private PatientResponse mapPatient(Patient patient){
        return MapData.mapOne(patient, PatientResponse.class);

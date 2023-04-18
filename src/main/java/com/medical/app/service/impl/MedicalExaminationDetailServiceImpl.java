@@ -1,10 +1,10 @@
 package com.medical.app.service.impl;
 
 import com.medical.app.dto.request.MedicalExaminationDetailsRequest;
-import com.medical.app.dto.response.MedicalExaminationDetailsResponse;
-import com.medical.app.dto.response.ServiceResponse;
+import com.medical.app.dto.response.*;
 import com.medical.app.mapper.MapData;
 import com.medical.app.model.entity.ImageUrl;
+import com.medical.app.model.entity.MedicalExamination;
 import com.medical.app.model.entity.MedicalExaminationDetails;
 import com.medical.app.model.enums.StatusMedicalDetail;
 import com.medical.app.repository.*;
@@ -92,11 +92,25 @@ public class MedicalExaminationDetailServiceImpl implements MedicalExaminationDe
     }
 
     @Override
-    public List<MedicalExaminationDetailsResponse> getDetailExaminationByDateAndRoom(Date date, Integer roomId) {
-        List<MedicalExaminationDetails> medicalExaminationDetails = medicalExaminationDetailRepository.findMedicalExaminationDetailsByCreatedDateAndRoomId(date,roomId);
-        List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses = MapData.mapList(medicalExaminationDetails,MedicalExaminationDetailsResponse.class);
+    public List<DetailServiceResponse> getDetailExaminationByDate(Date date) {
+        List<MedicalExamination> medicalExaminations = medicalExaminationRepository.findMedicalExaminationsByCreatedDate(date);
+        List<DetailServiceResponse> detailServiceResponses = new ArrayList<>();
+        for (MedicalExamination medicalExamination : medicalExaminations){
+            DetailServiceResponse detailServiceResponse = new DetailServiceResponse();
+            detailServiceResponse.setCreatedDate(medicalExamination.getCreatedDate());
+            if(medicalExamination.getDoctor() != null){
+                detailServiceResponse.setDoctor(MapData.mapOne(medicalExamination.getDoctor(),UserResponse.class));
 
-        return medicalExaminationDetailsResponses;
+            }else {
+                detailServiceResponse.setDoctor(null);
+            }
+            detailServiceResponse.setUpdatedDate(medicalExamination.getUpdatedDate());
+            detailServiceResponse.setPatient(MapData.mapOne(medicalExamination.getPatient(),PatientResponse.class));
+            detailServiceResponse.setId(medicalExamination.getId());
+            detailServiceResponse.setMedicalExaminationDetailsResponses(MapData.mapList(medicalExaminationDetailRepository.findMedicalExaminationDetailsByMedicalExaminationId(medicalExamination.getId()).orElseThrow(() -> new UsernameNotFoundException("Medical Examination not found")),MedicalExaminationDetailsResponse.class));
+            detailServiceResponses.add(detailServiceResponse);
+        }
+        return detailServiceResponses;
     }
 
 }

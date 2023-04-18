@@ -23,7 +23,7 @@ public class MedicalAppointmentLetter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @JsonFormat
-            (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+            (shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date date;
     @ManyToOne
     @JoinColumn(name = "doctor_in_charge")

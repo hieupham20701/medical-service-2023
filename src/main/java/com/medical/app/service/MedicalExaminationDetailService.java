@@ -1,6 +1,7 @@
 package com.medical.app.service;
 
 import com.medical.app.dto.request.MedicalExaminationDetailsRequest;
+import com.medical.app.dto.response.DetailServiceResponse;
 import com.medical.app.dto.response.MedicalExaminationDetailsResponse;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,5 +16,5 @@ public interface MedicalExaminationDetailService {
     Boolean deleteMedicalExaminationDetail(Integer medicalExaminationId, Integer serviceId);
     List<MedicalExaminationDetailsResponse> getMedicalExaminationDetailByMedicalExamId(Integer id);
     MedicalExaminationDetailsResponse updateMedicalExaminationDetail(Integer id, String status, List<MultipartFile> image);
-    List<MedicalExaminationDetailsResponse> getDetailExaminationByDateAndRoom(Date date, Integer roomId);
+    List<DetailServiceResponse> getDetailExaminationByDate(Date date);
 }

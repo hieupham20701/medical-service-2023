@@ -47,8 +47,7 @@ public class MedicalExaminationDetailController {
         return ResponseEntity.ok().body(medicalExaminationDetailService.updateMedicalExaminationDetail(id,status,files));
     }
     @PostMapping("/service")
-    public ResponseEntity<?> getMedicalMedicalExaminationDetailByDate(@RequestParam @DateTimeFormat(pattern="dd/MM/yyyy") Date date, @RequestParam Integer roomId){
-        return ResponseEntity.ok().body(medicalExaminationDetailService.getDetailExaminationByDateAndRoom(date,roomId));
+    public ResponseEntity<?> getMedicalMedicalExaminationDetailByDate(@RequestParam @DateTimeFormat(pattern="dd/MM/yyyy") Date date){
+        return ResponseEntity.ok().body(medicalExaminationDetailService.getDetailExaminationByDate(date));
     }
-
 }

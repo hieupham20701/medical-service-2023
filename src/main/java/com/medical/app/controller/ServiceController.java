@@ -38,4 +38,10 @@ public class ServiceController {
     public ResponseEntity<?> updateService(@PathVariable Integer id, @RequestBody ServiceRequest serviceRequest){
         return ResponseEntity.ok().body(serviceService.updateService(id, serviceRequest));
     }
+
+    @GetMapping("/cls")
+    public ResponseEntity<?> getServiceByCls(@RequestBody Boolean cls){
+        System.out.println(cls.toString());
+        return ResponseEntity.ok().body(serviceService.getServiceByCls(Boolean.getBoolean(cls.toString())));
+    }
 }

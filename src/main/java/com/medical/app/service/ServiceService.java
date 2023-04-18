@@ -12,5 +12,5 @@ public interface ServiceService {
 
     ServiceResponse getService(Integer id);
     ServiceResponse updateService(Integer id, ServiceRequest serviceRequest);
-
+    List<ServiceResponse> getServiceByCls(Boolean cls);
 }

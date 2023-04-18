@@ -61,4 +61,11 @@ public class ServiceServiceImpl implements ServiceService {
         Service serviceSaved = serviceRepository.save(service);
         return MapData.mapOne(serviceSaved, ServiceResponse.class);
     }
+
+    @Override
+    public List<ServiceResponse> getServiceByCls(Boolean cls) {
+            List<Service> services = serviceRepository.findServicesByCategoryServiceIsCls(cls);
+            return MapData.mapList(services,ServiceResponse.class);
+
+    }
 }

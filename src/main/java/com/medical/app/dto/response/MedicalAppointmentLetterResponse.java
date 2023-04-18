@@ -1,5 +1,6 @@
 package com.medical.app.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,8 @@ import java.util.Date;
 public class MedicalAppointmentLetterResponse {
 
     private Integer id;
+    @JsonFormat
+            (shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date date;
     private UserResponse doctor;
     private Date createdDate;

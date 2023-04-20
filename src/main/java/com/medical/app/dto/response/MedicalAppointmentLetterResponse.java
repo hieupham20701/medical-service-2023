@@ -28,6 +28,8 @@ public class MedicalAppointmentLetterResponse {
     private String description;
     private String patientName;
     private String phoneNumber;
+    private String dateOfBirth;
+    private String email;
     private String address;
     private Boolean sex;
 }

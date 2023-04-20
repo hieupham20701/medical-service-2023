@@ -18,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,21 +35,11 @@ public class MedicalAppointLetterServiceImpl implements MedicalAppointLetterServ
     public MedicalAppointmentLetterResponse saveMedicalAppointmentLetter(MedicalAppointmentLetterRequest medicalAppointmentLetterRequest) {
         MedicalAppointmentLetter medicalAppointmentLetter = MapData.mapOne(medicalAppointmentLetterRequest,MedicalAppointmentLetter.class);
         medicalAppointmentLetter.setCreatedDate(new Date(System.currentTimeMillis()));
-        Patient patient = patientRepository.getPatientByPhoneNumber(medicalAppointmentLetterRequest.getPatientRequest().getPhoneNumber()).orElse(null);
-
-        if(patient == null){
-            PatientResponse patientResponse = patientService.savePatientInfo(medicalAppointmentLetterRequest.getPatientRequest());
-            medicalAppointmentLetter.setPatient(MapData.mapOne(patientResponse,Patient.class));
-        }
-        else{
-            medicalAppointmentLetter.setPatient(patient);
-        }
         medicalAppointmentLetter.setDoctor(authRepository.findById(medicalAppointmentLetterRequest.getDoctor_id()).orElse(null));
         medicalAppointmentLetter.setService(serviceRepository.findById(medicalAppointmentLetterRequest.getService_id()).orElseThrow(()-> new UsernameNotFoundException("Service is not found")));
         medicalAppointmentLetter.setCreator(authRepository.findById(medicalAppointmentLetterRequest.getCreator_id()).orElse(null));
         MedicalAppointmentLetter medicalAppointmentLetterSaved = medicalAppointmentLetterRepository.save(medicalAppointmentLetter);
         MedicalAppointmentLetterResponse medicalAppointmentLetterResponse = MapData.mapOne(medicalAppointmentLetterSaved,MedicalAppointmentLetterResponse.class);
-        medicalAppointmentLetterResponse.setPatient(mapPatient(medicalAppointmentLetterSaved.getPatient()));
         return medicalAppointmentLetterResponse;
     }
 
@@ -66,13 +55,8 @@ public class MedicalAppointLetterServiceImpl implements MedicalAppointLetterServ
 
     @Override
     public List<MedicalAppointmentLetterResponse> getAllLetter() {
-        List<MedicalAppointmentLetterResponse> medicalAppointmentLetterResponses = new ArrayList<>();
         List<MedicalAppointmentLetter> medicalAppointmentLetters = medicalAppointmentLetterRepository.findAll();
-        for(MedicalAppointmentLetter medicalAppointmentLetter : medicalAppointmentLetters){
-            MedicalAppointmentLetterResponse medicalAppointmentLetterResponse = MapData.mapOne(medicalAppointmentLetter, MedicalAppointmentLetterResponse.class);
-            medicalAppointmentLetterResponse.setPatient(mapPatient(medicalAppointmentLetter.getPatient()));
-            medicalAppointmentLetterResponses.add(medicalAppointmentLetterResponse);
-        }
+        List<MedicalAppointmentLetterResponse> medicalAppointmentLetterResponses = MapData.mapList(medicalAppointmentLetters, MedicalAppointmentLetterResponse.class);
         return medicalAppointmentLetterResponses;
     }
 

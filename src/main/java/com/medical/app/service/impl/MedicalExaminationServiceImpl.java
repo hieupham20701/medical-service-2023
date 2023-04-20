@@ -119,9 +119,15 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
             medicalExamination.setTemperature(medicalExaminationRequest.getTemperature());
         if (medicalExaminationRequest.getPara() != null)
             medicalExamination.setPara(medicalExaminationRequest.getPara());
-
+        if (medicalExaminationRequest.getResult() != null)
+            medicalExamination.setResult(medicalExaminationRequest.getResult());
+        if(medicalExaminationRequest.getClinicalSign() != null)
+            medicalExamination.setClinicalSign(medicalExaminationRequest.getClinicalSign());
+        if(medicalExaminationRequest.getDescription() != null)
+            medicalExamination.setDescription(medicalExaminationRequest.getDescription());
+        if(medicalExaminationRequest.getCodeicd() != null)
+            medicalExamination.setCodeicd(medicalExaminationRequest.getCodeicd());
         List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses = new ArrayList<>();
-
 
         if(medicalExaminationRequest.getMedicalExaminationDetailsRequests() != null){
             for(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest : medicalExaminationRequest.getMedicalExaminationDetailsRequests()){

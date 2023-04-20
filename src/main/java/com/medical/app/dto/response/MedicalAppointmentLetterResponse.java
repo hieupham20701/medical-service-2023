@@ -23,8 +23,11 @@ public class MedicalAppointmentLetterResponse {
     private Date createdDate;
     private Date updatedDate;
     private ServiceResponse service;
-    private PatientResponse patient;
     private UserResponse creator;
     private String status;
     private String description;
+    private String patientName;
+    private String phoneNumber;
+    private String address;
+    private Boolean sex;
 }

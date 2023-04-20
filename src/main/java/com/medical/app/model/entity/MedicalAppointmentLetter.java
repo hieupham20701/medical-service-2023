@@ -42,4 +42,9 @@ public class MedicalAppointmentLetter {
     private String description;
     @Enumerated(EnumType.STRING)
     private StatusLetter status;
+
+    private String patientName;
+    private String phoneNumber;
+    private String address;
+    private Boolean sex;
 }

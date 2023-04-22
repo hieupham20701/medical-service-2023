@@ -17,7 +17,7 @@ public interface MedicalExaminationService {
     MedicalExaminationResponse updateMedicalExamination(Integer id, MedicalExaminationRequest medicalExaminationRequest);
 
     List<MedicalExaminationResponse> getHistoryMedicalExaminationPatientId(Integer id);
-    List<MedicalExaminationResponse> getMedicalExaminationByDateAndRoom(Date date, Integer room_id);
+    List<MedicalExaminationResponse> getMedicalExaminationByDateAndRoomAndDoctor(Date date, Integer room_id, Integer doctorId);
     MedicalExaminationResponse saveMedicineDetail(Integer examinationId, List<DetailMedicineRequest> detailMedicineRequests);
     List<MedicineResponse> getMedicineByDate(Date date);
 }

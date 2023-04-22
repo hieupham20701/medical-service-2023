@@ -65,8 +65,8 @@ public class MedicalExaminationController {
     }
 
     @PostMapping(value = "/date")
-    public ResponseEntity<?> getMedicalExaminationsByDate(@RequestParam @DateTimeFormat(pattern="dd/MM/yyyy") Date date, @RequestParam Integer roomId){
-        return ResponseEntity.ok().body(medicalExaminationService.getMedicalExaminationByDateAndRoom(date, roomId));
+    public ResponseEntity<?> getMedicalExaminationsByDate(@RequestParam @DateTimeFormat(pattern="dd/MM/yyyy") Date date, @RequestParam Integer roomId, @RequestParam Integer doctorId){
+        return ResponseEntity.ok().body(medicalExaminationService.getMedicalExaminationByDateAndRoomAndDoctor(date, roomId, doctorId));
     }
     @PostMapping("/medicine/{id}")
     public ResponseEntity<?> saveMedicineDetail(@PathVariable Integer id, @RequestBody List<DetailMedicineRequest> detailMedicineRequests){

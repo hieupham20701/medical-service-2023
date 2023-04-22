@@ -35,7 +35,12 @@ public class MedicalAppointLetterServiceImpl implements MedicalAppointLetterServ
     public MedicalAppointmentLetterResponse saveMedicalAppointmentLetter(MedicalAppointmentLetterRequest medicalAppointmentLetterRequest) {
         MedicalAppointmentLetter medicalAppointmentLetter = MapData.mapOne(medicalAppointmentLetterRequest,MedicalAppointmentLetter.class);
         medicalAppointmentLetter.setCreatedDate(new Date());
-        medicalAppointmentLetter.setDoctor(authRepository.findById(medicalAppointmentLetterRequest.getDoctor_id()).orElse(null));
+        if(medicalAppointmentLetterRequest.getDoctor_id() != null){
+            medicalAppointmentLetter.setDoctor(authRepository.findById(medicalAppointmentLetterRequest.getDoctor_id()).orElse(null));
+        }
+        else {
+            medicalAppointmentLetter.setDoctor(null);
+        }
         medicalAppointmentLetter.setService(serviceRepository.findById(medicalAppointmentLetterRequest.getService_id()).orElseThrow(()-> new UsernameNotFoundException("Service is not found")));
         medicalAppointmentLetter.setCreator(authRepository.findById(medicalAppointmentLetterRequest.getCreator_id()).orElse(null));
         MedicalAppointmentLetter medicalAppointmentLetterSaved = medicalAppointmentLetterRepository.save(medicalAppointmentLetter);

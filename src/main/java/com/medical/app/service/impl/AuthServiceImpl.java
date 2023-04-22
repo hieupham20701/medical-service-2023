@@ -74,14 +74,25 @@ public class AuthServiceImpl implements UserDetailsService, AuthService {
         Integer userId = decodedJWT.getClaim("userId").asInt();
 
         User existingUser = MapData.mapOne(getUserById(userId), User.class);
-
+        UserResponse userResponse = MapData.mapOne(existingUser,UserResponse.class);
 
         JWTTokenCreator tokenCreator = new JWTTokenCreator(existingUser);
         String newAccessToken = tokenCreator.createToken(JWTTokenCreator.TokenType.ACCESS_TOKEN);
 
         Map<String, Object> tokens = new HashMap<>();
-        tokens.put("user", existingUser);
-        tokens.put("accessToken", newAccessToken);
+        tokens.put("fullName", userResponse.getFullName());
+        tokens.put("id",userResponse.getId());
+        tokens.put("phoneNumber",userResponse.getPhoneNumber());
+        tokens.put("avatar", userResponse.getAvatar());
+        tokens.put("loginDate", new Date());
+        tokens.put("access_token", newAccessToken);
+        tokens.put("dateOfBirth", userResponse.getDateOfBirth());
+        tokens.put("idCardNumber", userResponse.getIdCardNumber());
+        tokens.put("address", userResponse.getAddress());
+        tokens.put("room",userResponse.getRoom());
+        tokens.put("createdDate", userResponse.getCreatedDate());
+        tokens.put("updatedDate", userResponse.getUpdatedDate());
+        tokens.put("role",userResponse.getRole());
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(),tokens);
     }

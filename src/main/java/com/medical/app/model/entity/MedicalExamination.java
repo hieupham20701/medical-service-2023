@@ -48,4 +48,7 @@ public class MedicalExamination {
     private String pathological;
     private String codeicd;
     private String clinicalSign;
+    @ManyToOne
+    @JoinColumn(name = "letter_id")
+    private MedicalAppointmentLetter letter;
 }

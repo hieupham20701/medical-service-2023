@@ -35,4 +35,5 @@ public class MedicalExaminationResponse {
     private String pathological;
     private String codeicd;
     private String clinicalSign;
+    private MedicalAppointmentLetterResponse letter;
 }

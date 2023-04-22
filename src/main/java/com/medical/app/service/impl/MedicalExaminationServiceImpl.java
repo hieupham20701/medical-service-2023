@@ -34,6 +34,7 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
     private final MedicalExaminationDetailService medicalExaminationDetailService;
     private final DrugRepository drugRepository;
     private final ServiceRepository serviceRepository;
+    private final MedicalAppointmentLetterRepository letterRepository;
     @Override
     public MedicalExaminationResponse saveMedicalExamination(MedicalExaminationRequest medicalExaminationRequest) {
         MedicalExamination medicalExamination = MapData.mapOne(medicalExaminationRequest, MedicalExamination.class);
@@ -42,6 +43,11 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
             medicalExamination.setDoctor(authRepository.findById(medicalExaminationRequest.getDoctorId()).orElse(null));
         }else {
             medicalExamination.setDoctor(null);
+        }
+        if(medicalExaminationRequest.getLetterId() != null){
+            medicalExamination.setLetter(letterRepository.findById(medicalExaminationRequest.getLetterId()).orElse(null));
+        }else {
+            medicalExamination.setLetter(null);
         }
         medicalExamination.setReception(authRepository.findById(medicalExaminationRequest.getReceptionId()).orElseThrow(()-> new UsernameNotFoundException("Reception is not exists!")));
         if(patientRepository.getPatientByPhoneNumber(medicalExaminationRequest.getPatient().getPhoneNumber()).orElse(null) == null){

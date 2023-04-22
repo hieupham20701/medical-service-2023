@@ -35,4 +35,5 @@ public class MedicalExaminationRequest {
     private String pathological;
     private String codeicd;
     private String clinicalSign;
+    private Integer letterId;
 }

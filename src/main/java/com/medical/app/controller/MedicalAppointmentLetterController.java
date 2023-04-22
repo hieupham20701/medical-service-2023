@@ -75,8 +75,8 @@ public class MedicalAppointmentLetterController {
     public ResponseEntity<?> findLetterByParam(@RequestParam String patient_name, @RequestParam String phone_number){
             return ResponseEntity.ok().body(medicalAppointLetterService.findLetterByParam(patient_name,phone_number));
     }
-//    @PostMapping(value = "/date")
-//    public ResponseEntity<?> getLetterByDate(@RequestParam @DateTimeFormat(pattern="dd/MM/yyyy") Date date){
-//        return ResponseEntity.ok().body(medicalAppointLetterService.findLetterByDate(date));
-//    }
+    @PostMapping(value = "/date/test")
+    public ResponseEntity<?> getLetterByDate(@RequestParam @DateTimeFormat(pattern="dd/MM/yyyy") Date date){
+        return ResponseEntity.ok().body(medicalAppointLetterService.findLetterByDate(date));
+    }
  }

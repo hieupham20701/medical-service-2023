@@ -34,7 +34,7 @@ public class MedicalAppointLetterServiceImpl implements MedicalAppointLetterServ
     @Override
     public MedicalAppointmentLetterResponse saveMedicalAppointmentLetter(MedicalAppointmentLetterRequest medicalAppointmentLetterRequest) {
         MedicalAppointmentLetter medicalAppointmentLetter = MapData.mapOne(medicalAppointmentLetterRequest,MedicalAppointmentLetter.class);
-        medicalAppointmentLetter.setCreatedDate(new Date(System.currentTimeMillis()));
+        medicalAppointmentLetter.setCreatedDate(new Date());
         medicalAppointmentLetter.setDoctor(authRepository.findById(medicalAppointmentLetterRequest.getDoctor_id()).orElse(null));
         medicalAppointmentLetter.setService(serviceRepository.findById(medicalAppointmentLetterRequest.getService_id()).orElseThrow(()-> new UsernameNotFoundException("Service is not found")));
         medicalAppointmentLetter.setCreator(authRepository.findById(medicalAppointmentLetterRequest.getCreator_id()).orElse(null));
@@ -85,6 +85,21 @@ public class MedicalAppointLetterServiceImpl implements MedicalAppointLetterServ
         }
         if(medicalAppointmentLetterRequest.getDescription()!= null){
             medicalAppointmentLetter.setDescription(medicalAppointmentLetterRequest.getDescription());
+        }
+        if(medicalAppointmentLetterRequest.getAddress() != null){
+            medicalAppointmentLetter.setAddress(medicalAppointmentLetterRequest.getAddress());
+        }
+        if(medicalAppointmentLetterRequest.getPatientName()!= null){
+            medicalAppointmentLetter.setPatientName(medicalAppointmentLetterRequest.getPatientName());
+        }
+        if(medicalAppointmentLetterRequest.getSex()!= null){
+            medicalAppointmentLetter.setSex(medicalAppointmentLetterRequest.getSex());
+        }
+        if(medicalAppointmentLetterRequest.getPhoneNumber() != null){
+            medicalAppointmentLetter.setPhoneNumber(medicalAppointmentLetterRequest.getPhoneNumber());
+        }
+        if(medicalAppointmentLetterRequest.getEmail() != null){
+            medicalAppointmentLetter.setEmail(medicalAppointmentLetterRequest.getEmail());
         }
         return MapData.mapOne(medicalAppointmentLetterRepository.save(medicalAppointmentLetter), MedicalAppointmentLetterResponse.class);
     }

@@ -27,7 +27,7 @@ public class Patient {
     private String address;
     private Date createdDate;
     private Date updatedDate;
-    @DateTimeFormat( pattern = "dd-MM-yyyy")
+    @DateTimeFormat( pattern = "dd/MM/yyyy")
     private Date dateOfBirth;
     private String insuranceNumber;
     private Boolean sex;

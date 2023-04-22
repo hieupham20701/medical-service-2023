@@ -20,7 +20,7 @@ public class PatientRequest {
     private Date createdDate;
     private Date updateDate;
     @JsonFormat
-            (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+            (shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date dateOfBirth;
     private String insuranceNumber;
     private Boolean sex;

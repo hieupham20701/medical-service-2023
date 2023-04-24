@@ -59,7 +59,7 @@ public class BatchDrugServiceImpl implements BatchDrugService {
             detailBatchDrugRequest.setBatchDrugId(batchDrugSaved.getId());
             detailBatchDrugResponses.add(detailBatchDrugService.saveDetailBatchDrug(detailBatchDrugRequest));
         }
-        batchDrugResponse.setSupplierResponse(MapData.mapOne(supplier, SupplierResponse.class));
+//        batchDrugResponse.se(MapData.mapOne(supplier, SupplierResponse.class));
         batchDrugResponse.setDetailBatchDrugResponses(detailBatchDrugResponses);
         return batchDrugResponse;
     }

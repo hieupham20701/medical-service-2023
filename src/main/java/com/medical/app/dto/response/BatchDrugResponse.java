@@ -23,7 +23,7 @@ public class BatchDrugResponse {
     private Date receiptDate;
     private Date createdDate;
     private Date updatedDate;
-    private SupplierResponse supplierResponse;
+    private SupplierResponse supplier;
     private UserResponse user;
     private Double totalPrice;
     private Double settlement;

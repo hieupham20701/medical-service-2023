@@ -230,4 +230,29 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
 
         return medicineResponses;
     }
+
+    @Override
+    public List<MedicalExaminationTable> getListMedicalExaminationTableView(Date date, Integer roomId, Integer doctorId) {
+        List<MedicalExamination> medicalExaminations = null;
+        if(roomId !=null && doctorId != null){
+            medicalExaminations = medicalExaminationRepository.findMedicalExaminationsByCreatedDateAndDoctorRoomIdAndDoctorId(date,roomId,doctorId);
+        }else {
+            medicalExaminations = medicalExaminationRepository.findMedicalExaminationsByCreatedDate(date);
+        }
+        List<MedicalExaminationTable> medicalExaminationTables = new ArrayList<>();
+
+
+        for(MedicalExamination medicalExamination : medicalExaminations){
+            MedicalExaminationTable medicalExaminationTable = new MedicalExaminationTable();
+            medicalExaminationTable.setId(medicalExamination.getId());
+            medicalExaminationTable.setDiagnose(medicalExamination.getDiagnose());
+            medicalExaminationTable.setStatus(medicalExamination.getStatus().toString());
+            medicalExaminationTable.setResult(medicalExamination.getResult());
+            medicalExaminationTable.setOld(medicalExamination.getPatient().getDateOfBirth());
+            medicalExaminationTable.setFullName(medicalExamination.getPatient().getFullName());
+            medicalExaminationTables.add(medicalExaminationTable);
+        }
+
+        return medicalExaminationTables;
+    }
 }

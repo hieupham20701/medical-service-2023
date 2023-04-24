@@ -3,6 +3,7 @@ package com.medical.app.service;
 import com.medical.app.dto.request.DetailMedicineRequest;
 import com.medical.app.dto.request.MedicalExaminationRequest;
 import com.medical.app.dto.response.MedicalExaminationResponse;
+import com.medical.app.dto.response.MedicalExaminationTable;
 import com.medical.app.dto.response.MedicineResponse;
 
 import java.util.Date;
@@ -20,4 +21,6 @@ public interface MedicalExaminationService {
     List<MedicalExaminationResponse> getMedicalExaminationByDateAndRoomAndDoctor(Date date, Integer room_id, Integer doctorId);
     MedicalExaminationResponse saveMedicineDetail(Integer examinationId, List<DetailMedicineRequest> detailMedicineRequests);
     List<MedicineResponse> getMedicineByDate(Date date);
+    List<MedicalExaminationTable> getListMedicalExaminationTableView(Date date, Integer roomId, Integer doctorId);
+
 }

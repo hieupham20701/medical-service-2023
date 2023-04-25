@@ -5,6 +5,7 @@ import com.medical.app.dto.response.DrugResponse;
 import com.medical.app.mapper.MapData;
 import com.medical.app.model.entity.DetailBatchDrug;
 import com.medical.app.model.entity.Drug;
+import com.medical.app.model.enums.Unit;
 import com.medical.app.repository.CategoryDrugRepository;
 import com.medical.app.repository.DetailBatchDrugRepository;
 import com.medical.app.repository.DrugRepository;
@@ -90,7 +91,7 @@ public class DrugServiceImpl implements DrugService {
             drug.setImage(drugRequest.getImage());
         }
         if(drugRequest.getUnit() != null){
-            drug.setUnit(drugRequest.getUnit());
+            drug.setUnit(Unit.valueOf(drugRequest.getUnit()));
         }
         if(drugRequest.getVienVi() != null){
             drug.setVienVi(drugRequest.getVienVi());

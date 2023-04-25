@@ -1,5 +1,6 @@
 package com.medical.app.model.entity;
 
+import com.medical.app.model.enums.Unit;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,8 @@ public class Drug {
     private Integer id;
     private String name;
     private String description;
-    private String unit;
+    @Enumerated(EnumType.STRING)
+    private Unit unit;
     private String benefit;
     private Double price;
     @ManyToOne
@@ -31,8 +33,8 @@ public class Drug {
     private String image;
     private Date createdDate;
     private Date updatedDate;
-    private Integer unitId;
     private Integer vienVi;
     private Integer viHop;
     private Integer hopThung;
+    private Integer quantity;
 }

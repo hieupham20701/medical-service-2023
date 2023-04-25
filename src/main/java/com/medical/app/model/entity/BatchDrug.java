@@ -1,5 +1,6 @@
 package com.medical.app.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,8 @@ public class BatchDrug {
     private Integer id;
     private String name;
     private String description;
+    @JsonFormat
+            (shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date receiptDate;
     private Date createdDate;
     private Date updatedDate;

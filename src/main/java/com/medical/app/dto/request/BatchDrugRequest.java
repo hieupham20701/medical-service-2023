@@ -1,5 +1,6 @@
 package com.medical.app.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.medical.app.dto.response.UserResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +19,8 @@ public class BatchDrugRequest {
 
     private String name;
     private String description;
+    @JsonFormat
+            (shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date receiptDate;
     private Date createdDate;
     private Date updatedDate;

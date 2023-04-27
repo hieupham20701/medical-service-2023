@@ -184,7 +184,12 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
 
     @Override
     public List<MedicalExaminationResponse> getMedicalExaminationByDateAndRoomAndDoctor(Date date, Integer room_id, Integer doctorId) {
-        List<MedicalExamination> medicalExaminations = medicalExaminationRepository.findMedicalExaminationsByCreatedDateAndDoctorRoomIdAndDoctorId(date, room_id, doctorId);
+        List<MedicalExamination> medicalExaminations = null;
+        if(room_id !=null && doctorId != null){
+            medicalExaminations = medicalExaminationRepository.findMedicalExaminationsByCreatedDateAndDoctorRoomIdAndDoctorId(date,room_id,doctorId);
+        }else {
+            medicalExaminations = medicalExaminationRepository.findMedicalExaminationsByCreatedDate(date);
+        }
         List<MedicalExaminationResponse> medicalExaminationResponses = MapData.mapList(medicalExaminations,MedicalExaminationResponse.class);
         for (MedicalExaminationResponse medicalExaminationResponse: medicalExaminationResponses){
             List<DetailMedicineResponse> detailMedicineResponses = MapData.mapList(detailMedicineRepository.findDetailMedicinesByMedicalExaminationId(medicalExaminationResponse.getId()),DetailMedicineResponse.class);

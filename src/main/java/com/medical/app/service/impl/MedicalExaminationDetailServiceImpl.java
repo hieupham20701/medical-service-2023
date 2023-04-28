@@ -80,14 +80,15 @@ public class MedicalExaminationDetailServiceImpl implements MedicalExaminationDe
         MedicalExaminationDetails medicalExaminationDetails = medicalExaminationDetailRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("Not found"));
         medicalExaminationDetails.setStatus(StatusMedicalDetail.valueOf(status));
         List<String> images = new ArrayList<>();
-        for(MultipartFile file : image){
-            String url = userService.uploadAvatar(file);
-            ImageUrl imageUrl = new ImageUrl();
-            imageUrl.setUrl(url);
-            imageUrl.setMedicalExaminationDetails(medicalExaminationDetails);
-            imageUrl.setCreatedDate(new Date());
-            imageUrlRepository.save(imageUrl);
-
+        if(image != null){
+            for(MultipartFile file : image){
+                String url = userService.uploadAvatar(file);
+                ImageUrl imageUrl = new ImageUrl();
+                imageUrl.setUrl(url);
+                imageUrl.setMedicalExaminationDetails(medicalExaminationDetails);
+                imageUrl.setCreatedDate(new Date());
+                imageUrlRepository.save(imageUrl);
+            }
         }
         medicalExaminationDetails.setResult(mapper.readTree(result));
         MedicalExaminationDetails medicalExaminationDetailSaved = medicalExaminationDetailRepository.save(medicalExaminationDetails);

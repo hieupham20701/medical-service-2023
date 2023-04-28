@@ -44,7 +44,7 @@ public class MedicalExaminationDetailController {
         return ResponseEntity.ok().body(medicalExaminationDetailService.getMedicalExaminations());
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateMedicalExaminationDetail(@PathVariable Integer id, @RequestParam String status, @RequestParam List<MultipartFile> files, @RequestParam(required = false) String result) throws JsonProcessingException {
+    public ResponseEntity<?> updateMedicalExaminationDetail(@PathVariable Integer id, @RequestParam String status, @RequestParam (required = false) List<MultipartFile> files, @RequestParam(required = false) String result) throws JsonProcessingException {
         return ResponseEntity.ok().body(medicalExaminationDetailService.updateMedicalExaminationDetail(id,status,files,result));
     }
     @PostMapping("/service")

@@ -36,6 +36,7 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
     private final DrugRepository drugRepository;
     private final ServiceRepository serviceRepository;
     private final MedicalAppointmentLetterRepository letterRepository;
+    private final ImageUrlRepository imageUrlRepository;
     @Override
     public MedicalExaminationResponse saveMedicalExamination(MedicalExaminationRequest medicalExaminationRequest) throws JsonProcessingException {
         MedicalExamination medicalExamination = MapData.mapOne(medicalExaminationRequest, MedicalExamination.class);
@@ -195,7 +196,15 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
         for (MedicalExaminationResponse medicalExaminationResponse: medicalExaminationResponses){
             List<DetailMedicineResponse> detailMedicineResponses = MapData.mapList(detailMedicineRepository.findDetailMedicinesByMedicalExaminationId(medicalExaminationResponse.getId()),DetailMedicineResponse.class);
             medicalExaminationResponse.setDetailMedicineResponses(detailMedicineResponses);
-            medicalExaminationResponse.setMedicalExaminationDetailsResponses(MapData.mapList(medicalExaminationDetailRepository.findMedicalExaminationDetailsByMedicalExaminationId(medicalExaminationResponse.getId()).orElseThrow(() -> new UsernameNotFoundException("Medical Examination not found")),MedicalExaminationDetailsResponse.class));
+            List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses= MapData.mapList(medicalExaminationDetailRepository.findMedicalExaminationDetailsByMedicalExaminationId(medicalExaminationResponse.getId()).orElseThrow(() -> new UsernameNotFoundException("Medical Examination not found")),MedicalExaminationDetailsResponse.class);
+            for(MedicalExaminationDetailsResponse medicalExaminationDetailsResponse : medicalExaminationDetailsResponses){
+                List<String> image = new ArrayList<>();
+                imageUrlRepository.findByMedicalExaminationDetailsId(medicalExaminationDetailsResponse.getId()).forEach(item -> {
+                    image.add(item.getUrl());
+                });
+                medicalExaminationDetailsResponse.setImages(image);
+            }
+            medicalExaminationResponse.setMedicalExaminationDetailsResponses(medicalExaminationDetailsResponses);
         }
         return medicalExaminationResponses;
     }

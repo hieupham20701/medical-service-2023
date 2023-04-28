@@ -1,5 +1,6 @@
 package com.medical.app.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.medical.app.dto.request.MedicalExaminationDetailsRequest;
 import com.medical.app.dto.response.DetailServiceResponse;
 import com.medical.app.dto.response.MedicalExaminationDetailsResponse;
@@ -10,11 +11,11 @@ import java.util.List;
 
 public interface MedicalExaminationDetailService {
 
-    MedicalExaminationDetailsResponse saveMedicalExaminationDetail(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest);
+    MedicalExaminationDetailsResponse saveMedicalExaminationDetail(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest) throws JsonProcessingException;
     MedicalExaminationDetailsResponse getMedicalExamination(Integer id);
     List<MedicalExaminationDetailsResponse> getMedicalExaminations();
     Boolean deleteMedicalExaminationDetail(Integer medicalExaminationId, Integer serviceId);
     List<MedicalExaminationDetailsResponse> getMedicalExaminationDetailByMedicalExamId(Integer id);
-    MedicalExaminationDetailsResponse updateMedicalExaminationDetail(Integer id, String status, List<MultipartFile> image);
+    MedicalExaminationDetailsResponse updateMedicalExaminationDetail(Integer id, String status, List<MultipartFile> image, String result) throws JsonProcessingException;
     List<DetailServiceResponse> getDetailExaminationByDate(Date date);
 }

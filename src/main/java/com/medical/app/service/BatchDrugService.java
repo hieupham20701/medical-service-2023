@@ -10,5 +10,5 @@ public interface BatchDrugService {
     BatchDrugResponse saveBatchDrug(BatchDrugRequest  batchDrugRequest);
     BatchDrugResponse getBatchDrugById(Integer id);
     List<BatchDrugResponse> getAllBatchDrug();
-    BatchDrugResponse exportDrug(Integer drugId, Integer quality, String type);
+    Boolean exportDrug(Integer medicalExaminationId);
 }

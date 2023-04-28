@@ -4,13 +4,9 @@ import com.medical.app.dto.request.BatchDrugRequest;
 import com.medical.app.dto.request.DetailBatchDrugRequest;
 import com.medical.app.dto.response.BatchDrugResponse;
 import com.medical.app.dto.response.DetailBatchDrugResponse;
-import com.medical.app.dto.response.SupplierResponse;
+import com.medical.app.exceptions.ForbiddenException;
 import com.medical.app.mapper.MapData;
-import com.medical.app.model.entity.BatchDrug;
-import com.medical.app.model.entity.DetailBatchDrug;
-import com.medical.app.model.entity.Drug;
-import com.medical.app.model.entity.Supplier;
-import com.medical.app.model.enums.Unit;
+import com.medical.app.model.entity.*;
 import com.medical.app.repository.*;
 import com.medical.app.service.BatchDrugService;
 import com.medical.app.service.DetailBatchDrugService;
@@ -33,7 +29,7 @@ public class BatchDrugServiceImpl implements BatchDrugService {
     private final AuthRepository authRepository;
     private final DetailBatchDrugService detailBatchDrugService;
     private final DetailBatchDrugRepository detailBatchDrugRepository;
-
+    private final DetailMedicineRepository detailMedicineRepository;
     private final SupplierRepository supplierRepository;
     private final DrugRepository drugRepository;
     @Override
@@ -58,6 +54,16 @@ public class BatchDrugServiceImpl implements BatchDrugService {
         for(DetailBatchDrugRequest detailBatchDrugRequest : batchDrugRequest.getDetailBatchDrug()){
             detailBatchDrugRequest.setBatchDrugId(batchDrugSaved.getId());
             detailBatchDrugResponses.add(detailBatchDrugService.saveDetailBatchDrug(detailBatchDrugRequest));
+            Drug drug = drugRepository.findById(detailBatchDrugRequest.getDrugId()).orElse(null);
+            int total_quality = 0;
+            if (drug.getQuantity() != null){
+                total_quality= drug.getQuantity() + detailBatchDrugRequest.getQuality();
+
+            }else {
+                total_quality=detailBatchDrugRequest.getQuality();
+            }
+            drug.setQuantity(total_quality);
+            drugRepository.save(drug);
         }
 //        batchDrugResponse.se(MapData.mapOne(supplier, SupplierResponse.class));
         batchDrugResponse.setDetailBatchDrugResponses(detailBatchDrugResponses);
@@ -81,17 +87,20 @@ public class BatchDrugServiceImpl implements BatchDrugService {
     }
 
     @Override
-    public BatchDrugResponse exportDrug(Integer drugId, Integer quality, String type) {
-        Drug drug = drugRepository.findById(drugId).orElseThrow(()-> new UsernameNotFoundException("Drug not found!"));
-        List<DetailBatchDrug> detailBatchDrugs = detailBatchDrugRepository.findDetailBatchDrugsByDrugId(drugId);
-        int total_quality = 0;
-        for(DetailBatchDrug detailBatchDrug : detailBatchDrugs){
-            if(detailBatchDrug.getUnit().equals(Unit.HOP)){
-                total_quality +=detailBatchDrug.getQuality()*drug.getHopThung()*drug.getViHop()*drug.getVienVi();
+    public Boolean exportDrug(Integer medicalExaminationId) {
+        List<DetailMedicine>detailMedicines =detailMedicineRepository.findDetailMedicinesByMedicalExaminationId(medicalExaminationId);
+        for(DetailMedicine detailMedicine : detailMedicines){
+            Drug drug = drugRepository.findById(detailMedicine.getDrug().getId()).orElseThrow(()-> new UsernameNotFoundException("Not found drug"));
+            if(drug.getQuantity() < detailMedicine.getQuantity()){
+                throw new ForbiddenException("Drug is not enough");
+            }else {
+                int quantityDrug = drug.getQuantity() - detailMedicine.getQuantity();
+                drug.setQuantity(quantityDrug);
+                drugRepository.save(drug);
             }
         }
 
-        return null;
+        return true;
     }
 
 }

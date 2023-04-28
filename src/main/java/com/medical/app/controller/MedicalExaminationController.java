@@ -3,6 +3,7 @@ package com.medical.app.controller;
 import com.google.firebase.database.annotations.NotNull;
 import com.medical.app.dto.request.DetailMedicineRequest;
 import com.medical.app.dto.request.MedicalExaminationRequest;
+import com.medical.app.service.BatchDrugService;
 import com.medical.app.service.MedicalExaminationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ import java.util.Map;
 @CrossOrigin
 public class MedicalExaminationController {
     private final MedicalExaminationService medicalExaminationService;
-
+    private final BatchDrugService batchDrugService;
     @PostMapping
     public ResponseEntity<?> saveMedicalExamination(@RequestBody MedicalExaminationRequest medicalExaminationRequest){
         try {
@@ -83,5 +84,11 @@ public class MedicalExaminationController {
     public ResponseEntity<?> getMedicalExaminationTableView(@RequestParam @DateTimeFormat(pattern = "dd/MM/yyyy") Date date, @RequestParam(required = false) Integer roomId, @RequestParam(required = false) Integer doctorId){
         return ResponseEntity.ok().body(medicalExaminationService.getListMedicalExaminationTableView(date,roomId,doctorId));
     }
+
+    @PutMapping(value = "/export/{id}")
+    public ResponseEntity<?> exportDrug(@PathVariable Integer id){
+        return ResponseEntity.ok(batchDrugService.exportDrug(id));
+    }
+
 
 }

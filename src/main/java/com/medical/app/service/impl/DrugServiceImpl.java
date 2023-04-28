@@ -41,7 +41,7 @@ public class DrugServiceImpl implements DrugService {
     public List<DrugResponse> getAllDrugs() {
         List<DrugResponse> drugResponses = MapData.mapList(drugRepository.findAll(), DrugResponse.class);
         for(DrugResponse drugResponse : drugResponses){
-            drugResponse.setQuality(getQualityDrug(drugResponse.getId()));
+            drugResponse.setQuantity(getQualityDrug(drugResponse.getId()));
         }
         return drugResponses;
     }
@@ -51,7 +51,6 @@ public class DrugServiceImpl implements DrugService {
         Drug drug = drugRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("Drug is not exist"));
 
         DrugResponse drugResponse = MapData.mapOne(drug,DrugResponse.class);
-        drugResponse.setQuality(this.getQualityDrug(id));
         return drugResponse;
     }
 

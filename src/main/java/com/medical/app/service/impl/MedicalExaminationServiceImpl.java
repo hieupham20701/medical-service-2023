@@ -1,5 +1,6 @@
 package com.medical.app.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.medical.app.dto.request.DetailMedicineRequest;
 import com.medical.app.dto.request.MedicalExaminationDetailsRequest;
 import com.medical.app.dto.request.MedicalExaminationRequest;
@@ -36,7 +37,7 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
     private final ServiceRepository serviceRepository;
     private final MedicalAppointmentLetterRepository letterRepository;
     @Override
-    public MedicalExaminationResponse saveMedicalExamination(MedicalExaminationRequest medicalExaminationRequest) {
+    public MedicalExaminationResponse saveMedicalExamination(MedicalExaminationRequest medicalExaminationRequest) throws JsonProcessingException {
         MedicalExamination medicalExamination = MapData.mapOne(medicalExaminationRequest, MedicalExamination.class);
         medicalExamination.setCreatedDate(new Date());
         if(medicalExaminationRequest.getDoctorId() != null){
@@ -96,7 +97,7 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
     }
 
     @Override
-    public MedicalExaminationResponse updateMedicalExamination(Integer id, MedicalExaminationRequest medicalExaminationRequest) {
+    public MedicalExaminationResponse updateMedicalExamination(Integer id, MedicalExaminationRequest medicalExaminationRequest) throws JsonProcessingException {
         MedicalExamination medicalExamination = medicalExaminationRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("Medical Examination is not exists!"));
         if(medicalExaminationRequest.getBuyMedicine() != null)
             medicalExamination.setBuyMedicine(medicalExaminationRequest.getBuyMedicine());

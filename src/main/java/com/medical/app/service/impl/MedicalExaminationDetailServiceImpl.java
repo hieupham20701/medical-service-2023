@@ -1,5 +1,9 @@
 package com.medical.app.service.impl;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.medical.app.dto.request.MedicalExaminationDetailsRequest;
 import com.medical.app.dto.response.*;
 import com.medical.app.mapper.MapData;
@@ -29,16 +33,18 @@ public class MedicalExaminationDetailServiceImpl implements MedicalExaminationDe
     private final RoomRepository roomRepository;
     private final UserService userService;
     private final ImageUrlRepository imageUrlRepository;
+    private final static ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public MedicalExaminationDetailsResponse saveMedicalExaminationDetail(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest) {
+    public MedicalExaminationDetailsResponse saveMedicalExaminationDetail(MedicalExaminationDetailsRequest medicalExaminationDetailsRequest) throws JsonProcessingException {
         MedicalExaminationDetails medicalExaminationDetails = new MedicalExaminationDetails();
         medicalExaminationDetails.setCreatedDate(new Date());
         medicalExaminationDetails.setMedicalExamination(medicalExaminationRepository.findById(medicalExaminationDetailsRequest.getMedicalExaminationId()).orElseThrow(()-> new UsernameNotFoundException("Medical Examination not exist!")));
         medicalExaminationDetails.setService(serviceRepository.findById(medicalExaminationDetailsRequest.getServiceId()).orElseThrow(()-> new UsernameNotFoundException("Service is not exists!")));
 //        medicalExaminationDetails.setRoom(roomRepository.findById(medicalExaminationDetailsRequest.getRoomId()).orElseThrow(()-> new UsernameNotFoundException("Room is not exists!")));
        medicalExaminationDetails.setStatus(StatusMedicalDetail.valueOf(medicalExaminationDetailsRequest.getStatus()));
-        MedicalExaminationDetails medicalExaminationDetailsSaved = medicalExaminationDetailRepository.save(medicalExaminationDetails);
+       medicalExaminationDetails.setResult(mapper.readTree(medicalExaminationDetailsRequest.getResult()));
+       MedicalExaminationDetails medicalExaminationDetailsSaved = medicalExaminationDetailRepository.save(medicalExaminationDetails);
         return MapData.mapOne(medicalExaminationDetailsSaved, MedicalExaminationDetailsResponse.class);
     }
 
@@ -70,7 +76,7 @@ public class MedicalExaminationDetailServiceImpl implements MedicalExaminationDe
     }
 
     @Override
-    public MedicalExaminationDetailsResponse updateMedicalExaminationDetail(Integer id, String status, List<MultipartFile> image) {
+    public MedicalExaminationDetailsResponse updateMedicalExaminationDetail(Integer id, String status, List<MultipartFile> image, String result) throws JsonProcessingException {
         MedicalExaminationDetails medicalExaminationDetails = medicalExaminationDetailRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("Not found"));
         medicalExaminationDetails.setStatus(StatusMedicalDetail.valueOf(status));
         List<String> images = new ArrayList<>();
@@ -83,6 +89,7 @@ public class MedicalExaminationDetailServiceImpl implements MedicalExaminationDe
             imageUrlRepository.save(imageUrl);
 
         }
+        medicalExaminationDetails.setResult(mapper.readTree(result));
         MedicalExaminationDetails medicalExaminationDetailSaved = medicalExaminationDetailRepository.save(medicalExaminationDetails);
         MedicalExaminationDetailsResponse medicalExaminationDetailsResponse = MapData.mapOne(medicalExaminationDetailSaved, MedicalExaminationDetailsResponse.class);
         medicalExaminationDetailsResponse.setService(MapData.mapOne(medicalExaminationDetailSaved.getService(), ServiceResponse.class));

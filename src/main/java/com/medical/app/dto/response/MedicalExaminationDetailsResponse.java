@@ -1,5 +1,6 @@
 package com.medical.app.dto.response;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,5 @@ public class MedicalExaminationDetailsResponse {
     private RoomResponse room;
     private String status;
     private List<String> images;
+    private JsonNode result;
 }

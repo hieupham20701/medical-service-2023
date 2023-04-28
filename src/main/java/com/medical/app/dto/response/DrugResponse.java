@@ -23,7 +23,7 @@ public class DrugResponse {
     private Date expiredDate;
     private Date createdDate;
     private Date updatedDate;
-    private Integer quality;
+    private Integer quantity;
     private String note;
     private String image;
     private Integer vienVi;

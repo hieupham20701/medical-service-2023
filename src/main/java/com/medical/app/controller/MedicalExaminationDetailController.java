@@ -1,5 +1,6 @@
 package com.medical.app.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.medical.app.dto.request.MedicalExaminationDetailsRequest;
 import com.medical.app.service.MedicalExaminationDetailService;
 import lombok.RequiredArgsConstructor;
@@ -43,8 +44,8 @@ public class MedicalExaminationDetailController {
         return ResponseEntity.ok().body(medicalExaminationDetailService.getMedicalExaminations());
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateMedicalExaminationDetail(@PathVariable Integer id, @RequestParam String status, @RequestParam List<MultipartFile> files){
-        return ResponseEntity.ok().body(medicalExaminationDetailService.updateMedicalExaminationDetail(id,status,files));
+    public ResponseEntity<?> updateMedicalExaminationDetail(@PathVariable Integer id, @RequestParam String status, @RequestParam List<MultipartFile> files, @RequestParam(required = false) String result) throws JsonProcessingException {
+        return ResponseEntity.ok().body(medicalExaminationDetailService.updateMedicalExaminationDetail(id,status,files,result));
     }
     @PostMapping("/service")
     public ResponseEntity<?> getMedicalMedicalExaminationDetailByDate(@RequestParam @DateTimeFormat(pattern="dd/MM/yyyy") Date date){

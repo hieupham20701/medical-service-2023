@@ -1,18 +1,15 @@
 package com.medical.app.controller;
 
-import com.google.firebase.database.annotations.NotNull;
 import com.medical.app.dto.request.DetailMedicineRequest;
 import com.medical.app.dto.request.MedicalExaminationRequest;
 import com.medical.app.service.BatchDrugService;
 import com.medical.app.service.MedicalExaminationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.nullness.qual.RequiresNonNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;

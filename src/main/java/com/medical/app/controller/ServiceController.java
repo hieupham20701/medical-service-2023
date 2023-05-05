@@ -40,8 +40,8 @@ public class ServiceController {
     }
 
     @GetMapping("/cls")
-    public ResponseEntity<?> getServiceByCls(@RequestBody Boolean cls){
+    public ResponseEntity<?> getServiceByCls(@RequestParam String cls){
         System.out.println(cls.toString());
-        return ResponseEntity.ok().body(serviceService.getServiceByCls(Boolean.getBoolean(cls.toString())));
+        return ResponseEntity.ok().body(serviceService.getServiceByCls(Boolean.getBoolean(cls)));
     }
 }

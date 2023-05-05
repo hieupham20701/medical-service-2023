@@ -42,4 +42,6 @@ public class MedicalExaminationDetails {
     @Column(name = "result", columnDefinition = "JSON")
     @Convert(converter = ResultDetailMedicalConverter.class)
     private JsonNode result;
+
+    private Boolean paid;
 }

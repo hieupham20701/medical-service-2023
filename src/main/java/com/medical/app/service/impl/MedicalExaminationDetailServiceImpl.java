@@ -1,8 +1,6 @@
 package com.medical.app.service.impl;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.medical.app.dto.request.MedicalExaminationDetailsRequest;
 import com.medical.app.dto.response.*;
@@ -22,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -121,6 +120,18 @@ public class MedicalExaminationDetailServiceImpl implements MedicalExaminationDe
             detailServiceResponses.add(detailServiceResponse);
         }
         return detailServiceResponses;
+    }
+
+    @Override
+    public List<MedicalExaminationDetailsResponse> paidMedicalExaminationDetail(List<Integer> detailId) {
+        List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses = new ArrayList<>();
+        detailId.forEach(id ->{
+            MedicalExaminationDetails details = medicalExaminationDetailRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("Detail not found"));
+            details.setPaid(true);
+            MedicalExaminationDetails detailsUpdate = medicalExaminationDetailRepository.save(details);
+            medicalExaminationDetailsResponses.add(MapData.mapOne(detailsUpdate,MedicalExaminationDetailsResponse.class));
+        });
+        return medicalExaminationDetailsResponses;
     }
 
 }

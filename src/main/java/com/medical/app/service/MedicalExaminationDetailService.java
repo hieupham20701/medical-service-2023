@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public interface MedicalExaminationDetailService {
 
@@ -18,4 +19,5 @@ public interface MedicalExaminationDetailService {
     List<MedicalExaminationDetailsResponse> getMedicalExaminationDetailByMedicalExamId(Integer id);
     MedicalExaminationDetailsResponse updateMedicalExaminationDetail(Integer id, String status, List<MultipartFile> image, String result) throws JsonProcessingException;
     List<DetailServiceResponse> getDetailExaminationByDate(Date date);
+    List<MedicalExaminationDetailsResponse> paidMedicalExaminationDetail(List<Integer> detailId);
 }

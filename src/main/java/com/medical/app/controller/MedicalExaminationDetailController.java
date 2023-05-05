@@ -10,10 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/medical_detail_examinations")
@@ -50,5 +47,10 @@ public class MedicalExaminationDetailController {
     @PostMapping("/service")
     public ResponseEntity<?> getMedicalMedicalExaminationDetailByDate(@RequestParam @DateTimeFormat(pattern="dd/MM/yyyy") Date date){
         return ResponseEntity.ok().body(medicalExaminationDetailService.getDetailExaminationByDate(date));
+    }
+
+    @PutMapping("/paid")
+    public ResponseEntity<?> paidMedicalExaminationDetail(@RequestBody List<Integer> detailId){
+        return ResponseEntity.ok().body(medicalExaminationDetailService.paidMedicalExaminationDetail(detailId));
     }
 }

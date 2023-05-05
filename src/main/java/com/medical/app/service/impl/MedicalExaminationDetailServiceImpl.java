@@ -43,7 +43,9 @@ public class MedicalExaminationDetailServiceImpl implements MedicalExaminationDe
         medicalExaminationDetails.setService(serviceRepository.findById(medicalExaminationDetailsRequest.getServiceId()).orElseThrow(()-> new UsernameNotFoundException("Service is not exists!")));
 //        medicalExaminationDetails.setRoom(roomRepository.findById(medicalExaminationDetailsRequest.getRoomId()).orElseThrow(()-> new UsernameNotFoundException("Room is not exists!")));
        medicalExaminationDetails.setStatus(StatusMedicalDetail.valueOf(medicalExaminationDetailsRequest.getStatus()));
-       medicalExaminationDetails.setResult(mapper.readTree(medicalExaminationDetailsRequest.getResult()));
+       if(medicalExaminationDetailsRequest.getResult() != null)
+           medicalExaminationDetails.setResult(mapper.readTree(medicalExaminationDetailsRequest.getResult()));
+
        MedicalExaminationDetails medicalExaminationDetailsSaved = medicalExaminationDetailRepository.save(medicalExaminationDetails);
         return MapData.mapOne(medicalExaminationDetailsSaved, MedicalExaminationDetailsResponse.class);
     }

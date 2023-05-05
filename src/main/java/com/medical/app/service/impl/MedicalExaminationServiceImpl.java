@@ -91,6 +91,13 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
         List<MedicalExaminationResponse> medicalExaminationResponses = MapData.mapList(medicalExaminationRepository.findAll(),MedicalExaminationResponse.class);
        for (MedicalExaminationResponse medicalExaminationResponse : medicalExaminationResponses){
            List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses = MapData.mapList(medicalExaminationDetailRepository.findMedicalExaminationDetailsByMedicalExaminationId(medicalExaminationResponse.getId()).orElseThrow(()-> new UsernameNotFoundException("Medical Examinations is not exists!")),MedicalExaminationDetailsResponse.class);
+           for(MedicalExaminationDetailsResponse medicalExaminationDetailsResponse : medicalExaminationDetailsResponses){
+               List<String> image = new ArrayList<>();
+               imageUrlRepository.findByMedicalExaminationDetailsId(medicalExaminationDetailsResponse.getId()).forEach(item -> {
+                   image.add(item.getUrl());
+               });
+               medicalExaminationDetailsResponse.setImages(image);
+           }
            medicalExaminationResponse.setMedicalExaminationDetailsResponses(medicalExaminationDetailsResponses);
            medicalExaminationResponse.setDetailMedicineResponses(MapData.mapList(detailMedicineRepository.findDetailMedicinesByMedicalExaminationId(medicalExaminationResponse.getId()),DetailMedicineResponse.class));
        }

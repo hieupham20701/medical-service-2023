@@ -32,6 +32,7 @@ public class BatchDrugServiceImpl implements BatchDrugService {
     private final DetailMedicineRepository detailMedicineRepository;
     private final SupplierRepository supplierRepository;
     private final DrugRepository drugRepository;
+    private final MedicalExaminationRepository medicalExaminationRepository;
     @Override
     @Transactional
     public BatchDrugResponse saveBatchDrug(BatchDrugRequest batchDrugRequest) {
@@ -99,7 +100,9 @@ public class BatchDrugServiceImpl implements BatchDrugService {
                 drugRepository.save(drug);
             }
         }
-
+        MedicalExamination medicalExamination = medicalExaminationRepository.findById(medicalExaminationId).orElse(null);
+        medicalExamination.setBuyMedicine(true);
+        medicalExaminationRepository.save(medicalExamination);
         return true;
     }
 

@@ -44,7 +44,7 @@ public class MedicalExaminationDetailServiceImpl implements MedicalExaminationDe
        medicalExaminationDetails.setStatus(StatusMedicalDetail.valueOf(medicalExaminationDetailsRequest.getStatus()));
        if(medicalExaminationDetailsRequest.getResult() != null)
            medicalExaminationDetails.setResult(mapper.readTree(medicalExaminationDetailsRequest.getResult()));
-
+       medicalExaminationDetails.setPaid(false);
        MedicalExaminationDetails medicalExaminationDetailsSaved = medicalExaminationDetailRepository.save(medicalExaminationDetails);
         return MapData.mapOne(medicalExaminationDetailsSaved, MedicalExaminationDetailsResponse.class);
     }

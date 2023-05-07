@@ -77,6 +77,11 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
         for(MedicalExaminationDetails medicalExaminationDetails1 : medicalExaminationDetails){
             MedicalExaminationDetailsResponse medicalExaminationDetailsResponse = MapData.mapOne(medicalExaminationDetails1,MedicalExaminationDetailsResponse.class);
             medicalExaminationDetailsResponse.setService(MapData.mapOne(medicalExaminationDetails1.getService(),ServiceResponse.class));
+            List<String> image = new ArrayList<>();
+            imageUrlRepository.findByMedicalExaminationDetailsId(medicalExaminationDetailsResponse.getId()).forEach(item -> {
+                    image.add(item.getUrl());
+            });
+            medicalExaminationDetailsResponse.setImages(image);
             medicalExaminationDetailsResponses.add(medicalExaminationDetailsResponse);
         }
         medicalExaminationResponse.setMedicalExaminationDetailsResponses(medicalExaminationDetailsResponses);

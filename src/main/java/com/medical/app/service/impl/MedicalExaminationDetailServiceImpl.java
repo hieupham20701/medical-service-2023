@@ -77,9 +77,10 @@ public class MedicalExaminationDetailServiceImpl implements MedicalExaminationDe
     }
 
     @Override
-    public MedicalExaminationDetailsResponse updateMedicalExaminationDetail(Integer id, String status, List<MultipartFile> image, String result) throws JsonProcessingException {
+    public MedicalExaminationDetailsResponse updateMedicalExaminationDetail(Integer id, String status, List<MultipartFile> image, String result, String conclusions) throws JsonProcessingException {
         MedicalExaminationDetails medicalExaminationDetails = medicalExaminationDetailRepository.findById(id).orElseThrow(()-> new UsernameNotFoundException("Not found"));
         medicalExaminationDetails.setStatus(StatusMedicalDetail.valueOf(status));
+        medicalExaminationDetails.setConclusions(conclusions);
         List<String> images = new ArrayList<>();
         if(image != null){
             for(MultipartFile file : image){

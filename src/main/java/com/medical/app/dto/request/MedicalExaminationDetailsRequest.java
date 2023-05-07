@@ -24,4 +24,5 @@ public class MedicalExaminationDetailsRequest {
     private String image;
     private String result;
     private Boolean paid;
+    private String conclusions;
 }

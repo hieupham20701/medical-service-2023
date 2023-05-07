@@ -25,4 +25,5 @@ public class MedicalExaminationDetailsResponse {
     private List<String> images;
     private JsonNode result;
     private Boolean paid;
+    private String conclusions;
 }

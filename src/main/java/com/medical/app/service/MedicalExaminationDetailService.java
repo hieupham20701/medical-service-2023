@@ -17,7 +17,7 @@ public interface MedicalExaminationDetailService {
     List<MedicalExaminationDetailsResponse> getMedicalExaminations();
     Boolean deleteMedicalExaminationDetail(Integer medicalExaminationId, Integer serviceId);
     List<MedicalExaminationDetailsResponse> getMedicalExaminationDetailByMedicalExamId(Integer id);
-    MedicalExaminationDetailsResponse updateMedicalExaminationDetail(Integer id, String status, List<MultipartFile> image, String result) throws JsonProcessingException;
+    MedicalExaminationDetailsResponse updateMedicalExaminationDetail(Integer id, String status, List<MultipartFile> image, String result, String conclusions) throws JsonProcessingException;
     List<DetailServiceResponse> getDetailExaminationByDate(Date date);
     List<MedicalExaminationDetailsResponse> paidMedicalExaminationDetail(List<Integer> detailId);
 }

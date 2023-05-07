@@ -44,4 +44,5 @@ public class MedicalExaminationDetails {
     private JsonNode result;
 
     private Boolean paid;
+    private String conclusions;
 }

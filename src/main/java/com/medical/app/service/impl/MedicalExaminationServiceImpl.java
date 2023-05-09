@@ -190,7 +190,17 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
     public List<MedicalExaminationResponse> getHistoryMedicalExaminationPatientId(Integer id) {
         List<MedicalExaminationResponse> medicalExaminationResponses = MapData.mapList(medicalExaminationRepository.findMedicalExaminationsByPatientId(id), MedicalExaminationResponse.class);
         for (MedicalExaminationResponse medicalExaminationResponse : medicalExaminationResponses){
-            medicalExaminationResponse.setMedicalExaminationDetailsResponses(MapData.mapList(medicalExaminationDetailRepository.findMedicalExaminationDetailsByMedicalExaminationId(medicalExaminationResponse.getId()).orElseThrow(() -> new UsernameNotFoundException("Medical Examination not found")),MedicalExaminationDetailsResponse.class));
+            List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses =  MapData.mapList(medicalExaminationDetailRepository.findMedicalExaminationDetailsByMedicalExaminationId(medicalExaminationResponse.getId()).orElseThrow(() -> new UsernameNotFoundException("Medical Examination not found")),MedicalExaminationDetailsResponse.class);
+            if(medicalExaminationDetailsResponses != null){
+                for(MedicalExaminationDetailsResponse medicalExaminationDetailsResponse : medicalExaminationDetailsResponses){
+                    List<String> image = new ArrayList<>();
+                    imageUrlRepository.findByMedicalExaminationDetailsId(medicalExaminationDetailsResponse.getId()).forEach(item -> {
+                        image.add(item.getUrl());
+                    });
+                    medicalExaminationDetailsResponse.setImages(image);
+                }
+            }
+            medicalExaminationResponse.setMedicalExaminationDetailsResponses(medicalExaminationDetailsResponses);
             medicalExaminationResponse.setDetailMedicineResponses(MapData.mapList(detailMedicineRepository.findDetailMedicinesByMedicalExaminationId(medicalExaminationResponse.getId()),DetailMedicineResponse.class));
         }
         return medicalExaminationResponses;

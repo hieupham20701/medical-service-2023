@@ -35,4 +35,6 @@ public class User {
     private Room room;
     @Enumerated(EnumType.STRING)
     private UserRole role;
+    private String email;
+    private Boolean sex;
 }

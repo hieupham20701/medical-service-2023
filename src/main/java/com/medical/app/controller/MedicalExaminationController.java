@@ -2,6 +2,7 @@ package com.medical.app.controller;
 
 import com.medical.app.dto.request.DetailMedicineRequest;
 import com.medical.app.dto.request.MedicalExaminationRequest;
+import com.medical.app.dto.response.MedicalExaminationResponse;
 import com.medical.app.service.BatchDrugService;
 import com.medical.app.service.MedicalExaminationService;
 import lombok.RequiredArgsConstructor;
@@ -87,5 +88,10 @@ public class MedicalExaminationController {
         return ResponseEntity.ok(batchDrugService.exportDrug(id));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<?> searchExamination(@RequestParam String type, @RequestParam String keyword){
+        List<MedicalExaminationResponse> medicalExaminationResponses = medicalExaminationService.searchMedicalExaminationByKeyword(type,keyword);
+        return null;
+    }
 
 }

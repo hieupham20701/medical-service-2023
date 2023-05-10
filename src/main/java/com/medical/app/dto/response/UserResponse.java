@@ -21,4 +21,6 @@ public class UserResponse {
     private RoomResponse room;
     private String role;
     private String avatar;
+    private String email;
+    private Boolean sex;
 }

@@ -20,4 +20,6 @@ public class UserRequest {
     private Date updatedDate;
     private String role;
     private String avatar;
+    private String email;
+    private Boolean sex;
 }

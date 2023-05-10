@@ -19,4 +19,6 @@ public interface AuthService {
     Boolean checkPhoneNumberIsExist(String phoneNumber);
 
     List<UserResponse> getUsersByRole(String role);
+
+    Boolean changePassword(String phoneNumber, String oldPassword, String newPassword);
 }

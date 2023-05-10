@@ -123,6 +123,17 @@ public class AuthServiceImpl implements UserDetailsService, AuthService {
     }
 
     @Override
+    public Boolean changePassword(String phoneNumber, String oldPassword, String newPassword) {
+        User user = authRepository.findUserByPhoneNumber(phoneNumber).orElseThrow(()-> new UsernameNotFoundException("User not found"));
+        if(passwordEncoder.matches(oldPassword,user.getPassword())){
+            user.setPassword(passwordEncoder.encode(newPassword));
+            authRepository.save(user);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = authRepository.findUserByPhoneNumber(username).orElseThrow(() -> new UsernameNotFoundException("User is not exist"));
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();

@@ -91,7 +91,7 @@ public class MedicalExaminationController {
     @GetMapping("/search")
     public ResponseEntity<?> searchExamination(@RequestParam String type, @RequestParam String keyword){
         List<MedicalExaminationResponse> medicalExaminationResponses = medicalExaminationService.searchMedicalExaminationByKeyword(type,keyword);
-        return null;
+        return ResponseEntity.ok().body(medicalExaminationResponses);
     }
 
 }

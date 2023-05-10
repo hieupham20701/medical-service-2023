@@ -61,6 +61,14 @@ public class AuthController {
         return ResponseEntity.badRequest().body("Something is wrong!");
     }
 
+    @PostMapping("/password/{phone_number}")
+    public ResponseEntity<?> changePassword(@PathVariable String phone_number, @RequestParam String oldPassword, @RequestParam String newPassword){
+        if(authService.changePassword(phone_number,oldPassword,newPassword)){
+            return ResponseEntity.ok().body("Password is update successfully");
+        }else {
+            return ResponseEntity.badRequest().body("Phone Number or password is wrong!");
+        }
+    }
     @GetMapping(value = "/exist/{phone_number}")
     public ResponseEntity<?> checkPhoneNumberExist(@PathVariable String phone_number){
         Map<String,String> message = new HashMap<>();

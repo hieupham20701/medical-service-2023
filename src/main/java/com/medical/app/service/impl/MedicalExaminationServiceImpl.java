@@ -292,4 +292,37 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
 
         return medicalExaminationTables;
     }
+
+    @Override
+    public List<MedicalExaminationResponse> searchMedicalExaminationByKeyword(String type, String keyword) {
+        switch (type){
+            case "name":
+                List<MedicalExamination> medicalExaminations =  medicalExaminationRepository.findMedicalExaminationsByPatientFullNameContaining(keyword);
+                return mappingMedicalExaminationResponse(medicalExaminations);
+            case "phone_number":
+                List<MedicalExamination> medicalExamination2s =  medicalExaminationRepository.findMedicalExaminationsByPatientPhoneNumber(keyword);
+                return mappingMedicalExaminationResponse(medicalExamination2s);
+        }
+
+        return null;
+    }
+
+    private List<MedicalExaminationResponse> mappingMedicalExaminationResponse(List<MedicalExamination> medicalExaminations){
+        List<MedicalExaminationResponse> medicalExaminationResponses = MapData.mapList(medicalExaminations, MedicalExaminationResponse.class);
+        for (MedicalExaminationResponse medicalExaminationResponse : medicalExaminationResponses){
+            List<MedicalExaminationDetailsResponse> medicalExaminationDetailsResponses =  MapData.mapList(medicalExaminationDetailRepository.findMedicalExaminationDetailsByMedicalExaminationId(medicalExaminationResponse.getId()).orElseThrow(() -> new UsernameNotFoundException("Medical Examination not found")),MedicalExaminationDetailsResponse.class);
+            if(medicalExaminationDetailsResponses != null){
+                for(MedicalExaminationDetailsResponse medicalExaminationDetailsResponse : medicalExaminationDetailsResponses){
+                    List<String> image = new ArrayList<>();
+                    imageUrlRepository.findByMedicalExaminationDetailsId(medicalExaminationDetailsResponse.getId()).forEach(item -> {
+                        image.add(item.getUrl());
+                    });
+                    medicalExaminationDetailsResponse.setImages(image);
+                }
+            }
+            medicalExaminationResponse.setMedicalExaminationDetailsResponses(medicalExaminationDetailsResponses);
+            medicalExaminationResponse.setDetailMedicineResponses(MapData.mapList(detailMedicineRepository.findDetailMedicinesByMedicalExaminationId(medicalExaminationResponse.getId()),DetailMedicineResponse.class));
+        }
+        return medicalExaminationResponses;
+    }
 }

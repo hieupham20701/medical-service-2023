@@ -23,5 +23,5 @@ public interface MedicalExaminationService {
     MedicalExaminationResponse saveMedicineDetail(Integer examinationId, List<DetailMedicineRequest> detailMedicineRequests);
     List<MedicineResponse> getMedicineByDate(Date date);
     List<MedicalExaminationTable> getListMedicalExaminationTableView(Date date, Integer roomId, Integer doctorId);
-
+    List<MedicalExaminationResponse> searchMedicalExaminationByKeyword(String type, String keyword);
 }

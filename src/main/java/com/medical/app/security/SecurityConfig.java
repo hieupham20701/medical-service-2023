@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests().antMatchers(GET ,"/api/auth/refresh/**" ).permitAll();
 //        http.authorizeRequests().antMatchers("/api/patients/**","/api/services/**","/api/drugs/**","/api/detail_batch_drugs/**","/api/medical_letters/**","/api/medical_examinations/**","/api/medical_detail_examinations/**","/api/medicines/**","/api/suppliers/**").hasAnyAuthority("ADMIN");
-        http.authorizeRequests().antMatchers("/api/patients/**","/api/services/**","/api/drugs/**","/api/detail_batch_drugs/**","/api/medical_letters/**","/api/medical_examinations/**","/api/medical_detail_examinations/**","/api/medicines/**","/api/suppliers/**","/api/users/**","/api/category_drugs/**","/api/medical_departments/**","/api/rooms/**","/api/batch_drugs/**","/api/category_services/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/patients/**","/api/services/**","/api/drugs/**","/api/detail_batch_drugs/**","/api/medical_letters/**","/api/medical_examinations/**","/api/medical_detail_examinations/**","/api/medicines/**","/api/suppliers/**","/api/users/**","/api/category_drugs/**","/api/medical_departments/**","/api/rooms/**","/api/batch_drugs/**","/api/category_services/**","/api/statistics/**").permitAll();
 
         http.authorizeRequests().antMatchers(GET ,"/api/auth/roles/**" ).hasAnyAuthority("ADMIN");
 
@@ -73,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList("Set-Cookie", "Authorization", "Cache-Control", "Content-Type"));
         configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:5173","http://localhost:5173","http://localhost:3000","http://localhost:3001",
-                "https://fe-tindi-n13-ts-redux-kv4a.vercel.app","exp://192.168.1.2:19000")); // evn
+                "https://fe-tindi-n13-ts-redux-kv4a.vercel.app","exp://192.168.1.2:19000","https://web-introduce-doantotnghiep.vercel.app/")); // evn
         configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration.applyPermitDefaultValues());

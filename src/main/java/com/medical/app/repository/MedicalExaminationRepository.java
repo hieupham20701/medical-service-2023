@@ -1,6 +1,7 @@
 package com.medical.app.repository;
 
 import com.medical.app.model.entity.MedicalExamination;
+import com.medical.app.model.enums.StatusMedicalDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,5 +16,5 @@ public interface MedicalExaminationRepository extends JpaRepository<MedicalExami
     List<MedicalExamination> findMedicalExaminationsByCreatedDate(Date date);
     List<MedicalExamination> findMedicalExaminationsByPatientFullNameContaining(String keyword);
     List<MedicalExamination> findMedicalExaminationsByPatientPhoneNumber(String keyword);
-    List<MedicalExamination> findMedicalExaminationsByDoctorRoomMedicalDepartmentIdAndCreatedDate(Integer departmentId, Date createdDate);
+    List<MedicalExamination> findMedicalExaminationsByDoctorRoomMedicalDepartmentIdAndCreatedDateAndStatus(Integer departmentId, Date createdDate, StatusMedicalDetail status);
 }

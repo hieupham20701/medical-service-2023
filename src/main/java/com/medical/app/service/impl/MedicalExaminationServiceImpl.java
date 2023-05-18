@@ -309,7 +309,7 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
 
     @Override
     public Integer getQuantityExaminationNotDone(Date date, Integer departmentId) {
-        List<MedicalExamination> medicalExaminations = medicalExaminationRepository.findMedicalExaminationsByDoctorRoomMedicalDepartmentIdAndCreatedDate(departmentId,date);
+        List<MedicalExamination> medicalExaminations = medicalExaminationRepository.findMedicalExaminationsByDoctorRoomMedicalDepartmentIdAndCreatedDateAndStatus(departmentId,date, StatusMedicalDetail.valueOf("WAIT"));
 
         return medicalExaminations.size();
     }

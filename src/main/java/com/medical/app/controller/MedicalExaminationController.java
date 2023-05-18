@@ -94,4 +94,11 @@ public class MedicalExaminationController {
         return ResponseEntity.ok().body(medicalExaminationResponses);
     }
 
+    @PostMapping("/quantity")
+    public ResponseEntity<?> getQuantityExamOnDay(@RequestParam @DateTimeFormat(pattern = "dd/MM/yyyy") Date date, @RequestParam  Integer departmentId){
+        Integer quantity = medicalExaminationService.getQuantityExaminationNotDone(date,departmentId);
+        Map<String, Integer> result = new HashMap<>();
+        result.put("quantity", quantity);
+        return ResponseEntity.ok().body(result);
+    }
 }

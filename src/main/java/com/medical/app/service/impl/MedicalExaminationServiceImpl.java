@@ -307,6 +307,13 @@ public class MedicalExaminationServiceImpl implements MedicalExaminationService 
         return null;
     }
 
+    @Override
+    public Integer getQuantityExaminationNotDone(Date date, Integer departmentId) {
+        List<MedicalExamination> medicalExaminations = medicalExaminationRepository.findMedicalExaminationsByDoctorRoomMedicalDepartmentIdAndCreatedDate(departmentId,date);
+
+        return medicalExaminations.size();
+    }
+
     private List<MedicalExaminationResponse> mappingMedicalExaminationResponse(List<MedicalExamination> medicalExaminations){
         List<MedicalExaminationResponse> medicalExaminationResponses = MapData.mapList(medicalExaminations, MedicalExaminationResponse.class);
         for (MedicalExaminationResponse medicalExaminationResponse : medicalExaminationResponses){

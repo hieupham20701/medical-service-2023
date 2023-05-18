@@ -15,5 +15,5 @@ public interface MedicalExaminationRepository extends JpaRepository<MedicalExami
     List<MedicalExamination> findMedicalExaminationsByCreatedDate(Date date);
     List<MedicalExamination> findMedicalExaminationsByPatientFullNameContaining(String keyword);
     List<MedicalExamination> findMedicalExaminationsByPatientPhoneNumber(String keyword);
-
+    List<MedicalExamination> findMedicalExaminationsByDoctorRoomMedicalDepartmentIdAndCreatedDate(Integer departmentId, Date createdDate);
 }
